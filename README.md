@@ -2,6 +2,12 @@
 
 git 用户配置管理工具。
 
+## 安装
+
+```shell
+npm install @lexmin0412/gcm -g
+```
+
 ## 功能
 
 ### `gcm list`
