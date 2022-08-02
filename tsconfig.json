@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+		"esModuleInterop": true,
+    "lib": [
+      "es6"
+    ],
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true
+  },
+  "includes": [
+    "src/*"
+  ]
+}

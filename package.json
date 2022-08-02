@@ -1,0 +1,60 @@
+{
+  "name": "@lexmin0412/gcm",
+  "version": "1.0.0",
+  "description": "快速切换本地 Git 用户配置",
+  "main": "./lib/index.js",
+  "bin": {
+    "gcm": "./bin/gcm.js"
+  },
+  "scripts": {
+    "test:use": "pnpm build && node lib/index.js use github",
+    "test:add": "pnpm build && node lib/index.js add",
+    "test:remove": "pnpm build && node lib/index.js remove",
+    "test:list": "pnpm build && node lib/index.js list",
+    "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
+    "build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
+    "build": "npm run build:commonjs && npm run build:es",
+    "ts": "ts-node src/",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexmin0412/gcm.git"
+  },
+  "keywords": [
+		"gcm",
+		"tools",
+		"cli",
+		"git",
+		"userConfig"
+	],
+  "author": {
+    "name": "lexmin0412",
+    "email": "zhangle_dev@outlook.com",
+    "url": "https://blog.cellerchan.top"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lexmin0412/gcm/issues"
+  },
+  "homepage": "https://github.com/lexmin0412/gcm#readme",
+  "devDependencies": {
+    "@types/inquirer": "^8.2.1",
+    "@types/node": "^18.6.3",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "files": [
+    "es",
+    "lib"
+  ],
+  "types": "./lib/index.d.ts",
+  "jsnext:main": "./es/index.js",
+  "module": "./es/index.js",
+  "dependencies": {
+    "@lexmin0412/run": "^0.0.1",
+    "commander": "^9.4.0",
+    "inquirer": "8.2.3"
+  }
+}
