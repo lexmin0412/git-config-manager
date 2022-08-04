@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { addConfig } from '../utils/index'
+import { addConfig, createEmptyJsonWhenNeeds } from '../utils/index'
 
 export const add = () => {
 	inquirer
@@ -21,6 +21,7 @@ export const add = () => {
 			}
 		])
 		.then((answers) => {
+			createEmptyJsonWhenNeeds()
 			addConfig({
 				alias: answers.alias,
 				name: answers.name,

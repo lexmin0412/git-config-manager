@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { removeConfig } from '../utils/index'
+import { removeConfig, createEmptyJsonWhenNeeds } from '../utils/index'
 
 export const remove = () => {
 	inquirer
@@ -11,6 +11,7 @@ export const remove = () => {
 			}
 		])
 		.then((answers) => {
+			createEmptyJsonWhenNeeds()
 			removeConfig(answers.alias)
 		})
 		.catch((error) => {

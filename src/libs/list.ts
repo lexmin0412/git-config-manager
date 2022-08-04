@@ -1,7 +1,8 @@
-import { getAllUserConfigs } from './../utils/index'
+import { getAllUserConfigs, createEmptyJsonWhenNeeds } from './../utils/index'
 import { UserConfig } from './../types'
 
 export const list = () => {
+	createEmptyJsonWhenNeeds()
 	const configs = getAllUserConfigs()
 	console.log(`共${configs.length}个配置`)
 	configs.forEach((config: UserConfig) => {
