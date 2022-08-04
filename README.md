@@ -30,3 +30,9 @@ npm install @lexmin0412/gcm -g
 
 通过别名删除用户配置。
 
+## `gcm current`
+
+简写：`gcm cur`。
+
+显示当前用户正在使用的配置。
+

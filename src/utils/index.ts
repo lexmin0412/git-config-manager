@@ -1,6 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { UserConfig } from './../types'
+import { execSync } from 'child_process'
 
 export const rootPath = path.resolve(__dirname, '..', '..')
 export const configJsonPath = path.resolve(rootPath, 'config.json')
@@ -9,6 +10,15 @@ export const createEmptyJsonWhenNeeds = () => {
 	if (!fs.existsSync(configJsonPath)) {
 		const users: UserConfig[] = []
 		fs.writeFileSync(configJsonPath, JSON.stringify({users}, null, 2))
+	}
+}
+
+export const getCurrentConfig = () => {
+	const currentUserName = execSync('git config --get user.name').toString().trim()
+	const currentUserEmail = execSync('git config --get user.email').toString().trim()
+	return {
+		name: currentUserName,
+		email: currentUserEmail
 	}
 }
 

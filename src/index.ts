@@ -4,6 +4,7 @@ import { use } from './libs/use'
 import { add } from './libs/add'
 import { list } from './libs/list'
 import { remove } from './libs/remove'
+import { current } from './libs/current'
 
 const pkgJsonPath = path.resolve(process.cwd(), 'package.json')
 const pkgJson = require(pkgJsonPath)
@@ -56,6 +57,20 @@ program
 	.action(() => {
 		try {
 			list()
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('current')
+	.alias('cur')
+	.description('get current git config in config file')
+	.action(() => {
+		try {
+			current()
 		} catch (error) {
 			console.error(error)
 			process.exit(1)

@@ -11,6 +11,7 @@
     "test:add": "pnpm build && node lib/index.js add",
     "test:remove": "pnpm build && node lib/index.js remove",
     "test:list": "pnpm build && node lib/index.js list",
+    "test:current": "pnpm build && node lib/index.js current",
     "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
     "build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
     "build": "npm run build:commonjs && npm run build:es",
