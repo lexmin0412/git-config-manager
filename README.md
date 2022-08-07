@@ -2,6 +2,8 @@
 
 git 用户配置管理工具。
 
+![workflow](https://img.shields.io/github/workflow/status/lexmin0412/gcm/publish%20node%20package?label=workflow) ![licence](https://img.shields.io/npm/l/@lexmin0412/gcm) ![downloads-month](https://img.shields.io/npm/dm/@lexmin0412/gcm)
+
 ## 安装
 
 ```shell
