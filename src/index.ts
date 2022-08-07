@@ -1,11 +1,6 @@
 import * as path from 'path'
 import { program } from 'commander'
-import { use } from './libs/use'
-import { add } from './libs/add'
-import { list } from './libs/list'
-import { remove } from './libs/remove'
-import { scan } from './libs/scan'
-import { current } from './libs/current'
+import { add, current, list, remove, scan, use } from './libs'
 
 const pkgJsonPath = path.resolve(process.cwd(), 'package.json')
 const pkgJson = require(pkgJsonPath)
