@@ -1,6 +1,6 @@
 {
   "name": "@lexmin0412/gcm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "快速切换本地 Git 用户配置",
   "main": "./lib/index.js",
   "bin": {
