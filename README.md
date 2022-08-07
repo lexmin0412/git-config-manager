@@ -16,27 +16,27 @@ npm install @lexmin0412/gcm -g
 
 查看所有用户配置。
 
-## `gcm add`
+### `gcm add`
 
 添加用户配置，需要输入别名、用户、邮箱信息。
 
-## `gcm use <alias>`
+### `gcm use <alias>`
 
 通过别名切换用户配置。
 
-## `gcm remove`
+### `gcm remove`
 
 简写：`gcm rm`。
 
 通过别名删除用户配置。
 
-## `gcm current`
+### `gcm current`
 
 简写：`gcm cur`。
 
 显示当前用户正在使用的配置。
 
-## `gcm scan`
+### `gcm scan`
 
 简写：`gcm sc`。
 
