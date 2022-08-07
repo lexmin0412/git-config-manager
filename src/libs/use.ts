@@ -1,7 +1,6 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import { addConfig, getProjectConfig } from './../utils/index'
-import { execSync } from 'child_process'
+import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig } from './../utils/index'
 import { runCmdSync } from '@lexmin0412/run'
 
 const rootPath = path.resolve(__dirname, '..', '..')
@@ -25,6 +24,8 @@ interface UserConfig {
 }
 
 export const use = (alias: string) => {
+
+	createEmptyJsonWhenNeeds()
 
 	if ( !fs.existsSync(configJsonPath) ) {
 		const currentConfig = getProjectConfig()
