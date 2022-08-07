@@ -1,6 +1,9 @@
 import * as path from 'path'
 import * as fs from 'fs'
+import { execSync } from 'child_process'
 import { UserConfig } from './../types'
+
+export * from './fs'
 
 export const rootPath = path.resolve(__dirname, '..', '..')
 export const configJsonPath = path.resolve(rootPath, 'config.json')
@@ -47,4 +50,17 @@ export const getConfigByAlias = (alias: string) => {
 	const configs = readConfigs()
 	const config = configs.users.find((config: UserConfig) => config.alias === alias)
 	return config || null
+}
+
+export const getProjectConfig = (projectPath: string = process.cwd()) => {
+	const currentUserName = execSync('git config --get user.name', {
+		cwd: projectPath
+	}).toString().trim()
+	const currentUserEmail = execSync('git config --get user.email', {
+		cwd: projectPath
+	}).toString().trim()
+	return {
+		name: currentUserName,
+		email: currentUserEmail
+	}
 }
