@@ -8,6 +8,7 @@
 		"gitconf": "./bin/gcm.js"
   },
   "scripts": {
+    "test:version": "pnpm build && node lib/index.js --version",
     "test:use": "pnpm build && node lib/index.js use github",
     "test:add": "pnpm build && node lib/index.js add",
     "test:remove": "pnpm build && node lib/index.js remove",
