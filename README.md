@@ -12,6 +12,9 @@ npm install @lexmin0412/gcm -g
 
 ## 功能
 
+**说明：**
+> 如果本机已有 gcm 命令，可以使用 `gitconf` 命令来替换，如 `gcm list` 可以改为 `gitconf list`，其他命令同理。
+
 ### `gcm list`
 
 简写：`gcm ls`。
