@@ -57,3 +57,7 @@ npm install @lexmin0412/gcm -g
 
 诊断当前目录下使用的 git 配置是否正确。
 
+
+## 更新日志
+
+[点我](https://github.com/lexmin0412/gcm/releases) 前往。
