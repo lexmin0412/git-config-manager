@@ -1,18 +1,9 @@
-import fs from 'fs'
-import path from 'path'
 import { execSync } from 'child_process'
 import { getAllUserConfigs, getCurrentConfig } from './../utils'
 import { UserConfig } from '../types'
 
 
 export const doctor = () => {
-	const pkgJsonPath = path.resolve(process.cwd(), 'package.json')
-
-	if ( !fs.existsSync(pkgJsonPath) ) {
-		console.error(`package.json 不存在，请在项目根目录执行 gcm doctor`)
-		process.exit(1)
-	}
-
 	const currentRemoteOrigin = execSync('git remote -v').toString().trim()
 	if ( !currentRemoteOrigin ) {
 		console.log('当前项目配置远程仓库，请确认是否位于项目根目录')
