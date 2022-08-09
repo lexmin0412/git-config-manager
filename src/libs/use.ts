@@ -38,7 +38,8 @@ user.email: ${currentConfig.email}
 		const defaultConfig = {
 			alias: 'default',
 			email: currentConfig.email,
-			name: currentConfig.name
+			name: currentConfig.name,
+			origin: 'github.com'
 		}
 		addConfig(defaultConfig)
 		process.exit(1)

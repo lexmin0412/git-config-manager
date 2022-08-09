@@ -18,14 +18,20 @@ export const add = () => {
 				type: 'input',
 				name: 'email',
 				message: '请输入邮箱',
-			}
+			},
+			{
+				type: 'input',
+				name: 'origin',
+				message: '请输入适用于当前配置的 git 远程域名(如 github.com )',
+			},
 		])
 		.then((answers) => {
 			createEmptyJsonWhenNeeds()
 			addConfig({
 				alias: answers.alias,
 				name: answers.name,
-				email: answers.email
+				email: answers.email,
+				origin: answers.origin
 			})
 		})
 		.catch((error) => {
