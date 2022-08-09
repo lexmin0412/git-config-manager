@@ -56,6 +56,9 @@
   "types": "./lib/index.d.ts",
   "jsnext:main": "./es/index.js",
   "module": "./es/index.js",
+	"engines": {
+		"node": ">=14.0.0"
+	},
   "dependencies": {
     "@lexmin0412/run": "^0.0.1",
     "commander": "^9.4.0",
