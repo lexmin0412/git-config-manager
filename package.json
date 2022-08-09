@@ -15,6 +15,7 @@
     "test:list": "pnpm build && node lib/index.js list",
     "test:scan": "pnpm build && node lib/index.js scan",
     "test:current": "pnpm build && node lib/index.js current",
+    "test:doctor": "pnpm build && node lib/index.js doctor",
     "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
     "build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
     "build": "npm run build:commonjs && npm run build:es",

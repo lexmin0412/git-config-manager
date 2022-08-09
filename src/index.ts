@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { program } from 'commander'
-import { add, current, list, remove, scan, use } from './libs'
+import { add, current, doctor, list, remove, scan, use } from './libs'
 
 const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
@@ -67,6 +67,19 @@ program
 	.action(() => {
 		try {
 			scan()
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('doctor')
+	.description('verify if your git config in current workspace is correct')
+	.action(() => {
+		try {
+			doctor()
 		} catch (error) {
 			console.error(error)
 			process.exit(1)
