@@ -4,7 +4,8 @@
   "description": "快速切换本地 Git 用户配置",
   "main": "./lib/index.js",
   "bin": {
-    "gcm": "./bin/gcm.js"
+    "gcm": "./bin/gcm.js",
+		"gitconf": "./bin/gcm.js"
   },
   "scripts": {
     "test:use": "pnpm build && node lib/index.js use github",
