@@ -2,7 +2,7 @@ import * as path from 'path'
 import { program } from 'commander'
 import { add, current, list, remove, scan, use } from './libs'
 
-const pkgJsonPath = path.resolve(process.cwd(), 'package.json')
+const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
 
 program
