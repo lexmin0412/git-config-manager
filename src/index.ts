@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { program } from 'commander'
-import { add, current, doctor, list, remove, scan, use } from './libs'
+import { add, current, doctor, list, remove, scan, upgrade, use } from './libs'
 
 const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
@@ -80,6 +80,19 @@ program
 	.action(() => {
 		try {
 			doctor()
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('upgrade')
+	.description('upgrade version of gcm self')
+	.action(() => {
+		try {
+			upgrade()
 		} catch (error) {
 			console.error(error)
 			process.exit(1)

@@ -23,6 +23,10 @@ export const createEmptyJsonWhenNeeds = () => {
 	}
 }
 
+export const getPkgJson = () => {
+	return require(path.resolve(__dirname, '..', '..', 'package.json'))
+}
+
 export const getCurrentConfig = () => {
 	const currentUserName = execSync('git config --get user.name').toString().trim()
 	const currentUserEmail = execSync('git config --get user.email').toString().trim()
