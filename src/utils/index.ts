@@ -9,6 +9,11 @@ export * from './fs'
 const USER_HOME = os.homedir()
 
 export const rootPath = path.resolve(USER_HOME, '.gcm')
+
+if ( !fs.existsSync(rootPath) ) {
+	fs.mkdirSync(rootPath)
+}
+
 export const configJsonPath = path.resolve(rootPath, 'config.json')
 
 export const createEmptyJsonWhenNeeds = () => {
