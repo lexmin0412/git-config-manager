@@ -1,10 +1,6 @@
-import * as path from 'path'
 import * as fs from 'fs'
-import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig } from './../utils/index'
+import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath } from './../utils/index'
 import { runCmdSync } from '@lexmin0412/run'
-
-const rootPath = path.resolve(__dirname, '..', '..')
-const configJsonPath = path.resolve(rootPath, 'config.json')
 
 export const readConfigs = () => {
 	const configs = JSON.parse(fs.readFileSync(configJsonPath, 'utf8'))

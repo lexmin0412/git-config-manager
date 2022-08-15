@@ -1,11 +1,14 @@
 import * as path from 'path'
 import * as fs from 'fs'
+import * as os from 'os'
 import { execSync } from 'child_process'
 import { UserConfig } from './../types'
 
 export * from './fs'
 
-export const rootPath = path.resolve(__dirname, '..', '..')
+const USER_HOME = os.homedir()
+
+export const rootPath = path.resolve(USER_HOME, '.gcm')
 export const configJsonPath = path.resolve(rootPath, 'config.json')
 
 export const createEmptyJsonWhenNeeds = () => {
