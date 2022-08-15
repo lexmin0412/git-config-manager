@@ -1,3 +1,4 @@
+import { runCmdSync } from '@lexmin0412/run'
 import latestVersion from "latest-version"
 import inquirer from 'inquirer'
 import { gt } from 'semver'
@@ -10,7 +11,7 @@ export const upgrade = async() => {
 
 	if ( newVersion === currentVersion ) {
 		console.log('当前已是最新版本', currentVersion)
-		process.exit(1)
+		process.exit(0)
 	}
 
 	if ( gt(newVersion, currentVersion) ) {
@@ -23,7 +24,12 @@ export const upgrade = async() => {
 			}
 		]).then((answers) => {
 			const confirmed = answers.confirmed
-			console.log('confirmed', confirmed)
+			if (confirmed) {
+				runCmdSync(`npm install ${pkgJson.name}@${newVersion} -g`)
+			} else {
+				console.log('canceled')
+				process.exit(0)
+			}
 		})
 	} else {
 		console.error('当前安装版本异常，请检查: ')
