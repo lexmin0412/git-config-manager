@@ -44,6 +44,10 @@
     "url": "https://github.com/lexmin0412/gcm/issues"
   },
   "homepage": "https://github.com/lexmin0412/gcm#readme",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
   "devDependencies": {
     "@types/inquirer": "^8.2.1",
     "@types/node": "^18.6.3",
