@@ -1,5 +1,6 @@
 import { getCurrentConfig, getAllUserConfigs } from './../utils/index'
 import { UserConfig } from './../types'
+import pc from 'picocolors'
 
 export const current = () => {
     const allConfigs = getAllUserConfigs()
@@ -8,8 +9,8 @@ export const current = () => {
         return config.name === currentConfig.name && config.email === config.email
     })
     if ( currentInConfigJson ) {
-        console.log(`当前使用的配置:
+        console.log(pc.green(`当前使用的配置:
 user.name: ${currentConfig.name}
-user.email: ${currentConfig.email}`)
+user.email: ${currentConfig.email}`))
     }
 }

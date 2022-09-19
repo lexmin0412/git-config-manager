@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath } from './../utils/index'
 import { runCmdSync } from '@lexmin0412/run'
+import pc from 'picocolors'
 
 export const readConfigs = () => {
 	const configs = JSON.parse(fs.readFileSync(configJsonPath, 'utf8'))
@@ -42,14 +43,14 @@ user.email: ${currentConfig.email}
 	} else {
 		const config = getConfigByAlias(alias)
 		if ( !config ) {
-			console.error(`配置别名 ${alias} 不存在`)
+			console.error(pc.red(`配置别名 ${alias} 不存在`))
 			process.exit(1)
 		} else {
 			setConfig(config)
 			const currentConfig = getProjectConfig()
-			console.log(`当前 git 配置为:
+			console.log(pc.green(`当前 git 配置为:
 user.name: ${currentConfig.name}
-user.email: ${currentConfig.email}`)
+user.email: ${currentConfig.email}`))
 		}
 	}
 }

@@ -12,7 +12,7 @@ export const doctor = () => {
 	const currentRemote = currentRemoteOrigin.split('\n')[0]
 	const allConfigs = getAllUserConfigs()
 	const currentConfig = getCurrentConfig()
-	const curMatchedItem: UserConfig = allConfigs.find((config: UserConfig) => currentRemote.includes(config.origin))
+	const curMatchedItem: UserConfig | undefined = allConfigs.find((config: UserConfig) => currentRemote.includes(config.origin))
 	if ( curMatchedItem ) {
 		if ( currentConfig.name === curMatchedItem.name && currentConfig.email === curMatchedItem.email ) {
 			console.log(`当前配置 ${curMatchedItem.alias} 正确

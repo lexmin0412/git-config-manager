@@ -1,9 +1,22 @@
 import * as path from 'path'
+import pc from "picocolors"
 import { program } from 'commander'
 import { add, current, doctor, list, remove, scan, upgrade, use } from './libs'
 
+const figlet = require('figlet')
 const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
+
+const artText = figlet.textSync('G C M', {
+	font: 'Standard',
+	horizontalLayout: 'default',
+	verticalLayout: 'default',
+	width: 80,
+	whitespaceBreak: true
+})
+
+console.log(`> gcm ${process.argv[2]}
+${pc.green(artText)}`);
 
 program
 	.version(pkgJson.version)

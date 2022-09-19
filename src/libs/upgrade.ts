@@ -1,5 +1,6 @@
 import { runCmdSync } from '@lexmin0412/run'
 import latestVersion from "latest-version"
+import pc from 'picocolors'
 import inquirer from 'inquirer'
 import { gt } from 'semver'
 import { getPkgJson } from './../utils'
@@ -10,7 +11,7 @@ export const upgrade = async() => {
 	const currentVersion = pkgJson.version
 
 	if ( newVersion === currentVersion ) {
-		console.log('当前已是最新版本', currentVersion)
+		console.log(pc.green(`'当前已是最新版本', ${currentVersion}`))
 		process.exit(0)
 	}
 

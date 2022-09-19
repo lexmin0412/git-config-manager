@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as os from 'os'
 import { execSync } from 'child_process'
 import { UserConfig } from './../types'
+import pc from 'picocolors'
 
 export * from './fs'
 
@@ -41,22 +42,23 @@ export const addConfig = (config: UserConfig) => {
 	const configJson = require(configJsonPath)
 	configJson.users.push(config)
 	fs.writeFileSync(configJsonPath, JSON.stringify(configJson, null, 2))
+	console.log(pc.green('添加成功✅'))
 }
 
 export const removeConfig = (alias: string) => {
 	if (!isConfigJsonExists()) {
-		console.error('配置文件不存在')
+		console.error(pc.red('配置文件不存在'))
 		process.exit(1)
 	}
 	const configJson = require(configJsonPath)
 	const targetUserConfigIndex = configJson.users.findIndex(((config: UserConfig)=>config.alias === alias))
 	if (targetUserConfigIndex === -1 ) {
-		console.error(`不存在别名为 ${alias} 的配置`)
+		console.error(pc.red(`不存在别名为 ${alias} 的配置`))
 		process.exit(1)
 	}
 	configJson.users.splice(targetUserConfigIndex, 1)
 	fs.writeFileSync(configJsonPath, JSON.stringify(configJson, null, 2))
-	console.log(`配置 ${alias} 删除成功`)
+	console.log(pc.green(`配置 ${alias} 删除成功`))
 }
 
 export const isConfigJsonExists = () => {
@@ -64,7 +66,9 @@ export const isConfigJsonExists = () => {
 	return isExists
 }
 
-export const readConfigs = () => {
+export const readConfigs = (): {
+	users: UserConfig[]
+} => {
 	createEmptyJsonWhenNeeds()
 	const configs = JSON.parse(fs.readFileSync(configJsonPath, 'utf8'))
 	return configs
