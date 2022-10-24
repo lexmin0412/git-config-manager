@@ -8,7 +8,7 @@
 		"tokenRef": "COMMIT_TOKEN"
   },
 	"npm": {
-    "publish": true,
+    "publish": false,
     "publishPath": ".",
     "publishArgs": [],
     "tag": null,
