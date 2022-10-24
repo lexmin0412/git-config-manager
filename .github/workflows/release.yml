@@ -1,4 +1,4 @@
-name: publish node package
+name: release new version
 
 on:
   push:
