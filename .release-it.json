@@ -3,6 +3,8 @@
     "commitMessage": "chore: release v${version}"
   },
   "github": {
-    "release": true
+    "release": true,
+		"releaseName": "Release v${version}",
+		"tokenRef": "COMMIT_TOKEN"
   }
 }
