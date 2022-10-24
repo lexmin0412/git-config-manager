@@ -1,7 +1,10 @@
 import inquirer from 'inquirer';
 import { addConfig, createEmptyJsonWhenNeeds } from '../utils/index'
+import { DEFAULT_ORIGINS } from '../constants';
 
-export const add = () => {
+const flatOrigins = DEFAULT_ORIGINS.map((item)=>item.origin)
+
+export const add = async() => {
 	inquirer
 		.prompt([
 			{
@@ -20,18 +23,36 @@ export const add = () => {
 				message: '请输入邮箱',
 			},
 			{
-				type: 'input',
+				type: 'list',
 				name: 'origin',
-				message: '请输入适用于当前配置的 git 远程域名(如 github.com )',
-			},
+				message: '请选择适用于当前配置的 git 远程域名',
+				choices: [
+					...flatOrigins,
+					'custom'
+				]
+			}
 		])
-		.then((answers) => {
+		.then(async(answers) => {
+
+			let origin = answers.origin
+
+			if (answers.origin === 'custom') {
+				const { customOrigin } = await inquirer.prompt([
+					{
+						type: 'input',
+						name: 'customOrigin',
+						message: '请输入需要应用当前配置的 git 远程域名(如 github.com )',
+					}
+				])
+				origin = customOrigin
+			}
+
 			createEmptyJsonWhenNeeds()
 			addConfig({
 				alias: answers.alias,
 				name: answers.name,
 				email: answers.email,
-				origin: answers.origin
+				origin: origin
 			})
 		})
 		.catch((error) => {

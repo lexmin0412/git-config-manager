@@ -4,3 +4,7 @@ export interface UserConfig {
 	email: string
 	origin: string
 }
+
+export interface Origin {
+	origin: string
+}
