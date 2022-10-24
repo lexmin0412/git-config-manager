@@ -14,8 +14,8 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: git config --global user.email zhangle_dev@outlook.com
-      - run: git config --global user.name lexmin0412
+      - run: git config --global user.email ${{secrets.USER_EMAIL}}
+      - run: git config --global user.name ${{secrets.USER_NAME}}
       - run: npm install pnpm -g
       - run: pnpm install
       - run: pnpm build
