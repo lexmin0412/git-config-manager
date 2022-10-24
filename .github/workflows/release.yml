@@ -16,7 +16,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm install pnpm -g
       - run: pnpm install
-      - run: pnpm run build
-      - run: pnpm run release
+      - run: pnpm build
+      - run: export GITHUB_TOKEN=${{secrets.COMMIT_TOKEN}} && pnpm release
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
