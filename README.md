@@ -4,6 +4,24 @@ git 用户配置管理工具。
 
 ![version](https://img.shields.io/npm/v/@lexmin0412/gcm) ![workflow](https://img.shields.io/github/workflow/status/lexmin0412/gcm/publish%20node%20package?label=workflow) ![licence](https://img.shields.io/npm/l/@lexmin0412/gcm) ![downloads-month](https://img.shields.io/npm/dm/@lexmin0412/gcm)
 
+## 目录
+
+- [简介](#简介)
+- [安装](#安装)
+- [功能](#功能)
+
+## 简介
+
+GCM, 全称 Git Config Manager，用于在不同工作区(目录) 灵活切换不同的 Git 配置，降低心智负担。
+
+开发这个工具的初衷，是因为我的设备既用于公司项目开发，平时也会写一些自己的项目，我需要频繁不断地在不同 Git 账号之间切换以确保我使用正确的用户来进行提交，一次次的 `git config user.name xxx`，`git config user.name xxx@xxx.com` 耗费了我大量的时间，每次手动输入也难免会产生差错，造成一些未知用户的提交。于是我下定决心要开发这个工具，它可以帮你实现如下需求：
+
+- 全局维护多个 Git 用户配置，在需要时可以方便地切换
+- 快速查询当前目录应用的 Git 用户配置
+- 扫描某个目录下存在多少份不同的 Git 用户配置，然后快速纠正它
+
+查看 [功能](#功能) 部分来了解它所有的 API，如果你有什么意见或建议，也欢迎通过 [issue](https://github.com/lexmin0412/gcm/issues) 来进行交流。
+
 ## 安装
 
 ```shell
