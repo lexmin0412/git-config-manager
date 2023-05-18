@@ -1,17 +1,30 @@
 import inquirer from 'inquirer';
+import pc from 'picocolors'
 import { addConfig, createEmptyJsonWhenNeeds } from '../utils/index'
 import { DEFAULT_ORIGINS } from '../constants';
+import { getAllUserConfigs } from './../utils/index';
 
 const flatOrigins = DEFAULT_ORIGINS.map((item)=>item.origin)
 
 export const add = async() => {
-	inquirer
+
+	const { alias } = await inquirer
 		.prompt([
 			{
 				type: 'input',
 				name: 'alias',
 				message: '请输入别名',
-			},
+			}])
+
+	const userList = getAllUserConfigs()
+	const alisExisted = userList.some((user)=>user.alias === alias)
+	if (alisExisted) {
+		console.error(pc.red('别名已存在，请调整后重试哦～'))
+		process.exit(1)
+	}
+
+	inquirer
+		.prompt([
 			{
 				type: 'input',
 				name: 'name',
@@ -49,7 +62,7 @@ export const add = async() => {
 
 			createEmptyJsonWhenNeeds()
 			addConfig({
-				alias: answers.alias,
+				alias: alias,
 				name: answers.name,
 				email: answers.email,
 				origin: origin
