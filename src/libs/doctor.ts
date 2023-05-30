@@ -6,7 +6,7 @@ import { UserConfig } from '../types'
 export const doctor = () => {
 	const currentRemoteOrigin = execSync('git remote -v').toString().trim()
 	if ( !currentRemoteOrigin ) {
-		console.log('当前项目配置远程仓库，请确认是否位于项目根目录')
+		console.log('未检测到配置远程仓库，请确认是否位于项目根目录')
 	}
 
 	const currentRemote = currentRemoteOrigin.split('\n')[0]
