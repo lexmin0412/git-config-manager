@@ -67,7 +67,7 @@
   "jsnext:main": "./es/index.js",
   "module": "./es/index.js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@lexmin0412/run": "^0.0.1",
