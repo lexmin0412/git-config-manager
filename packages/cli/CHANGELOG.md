@@ -5,14 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.7.1 (2024-04-15)
 
-**Note:** Version bump only for package root
-
-
-
-
-
-
-
-### 1.6.14 (2024-04-07)
-
-### 1.6.13 (2023-05-30)
+**Note:** Version bump only for package @lexmin0412/gcm
