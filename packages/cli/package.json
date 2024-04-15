@@ -1,0 +1,59 @@
+{
+	"name": "@lexmin0412/gcm",
+	"version": "1.7.0",
+	"description": "GCM 的命令行接口",
+	"bin": {
+		"gcm": "./bin/gcm.js",
+		"gitconf": "./bin/gcm.js"
+	},
+	"keywords": [
+		"git-config"
+	],
+	"author": "lexmin0412 <zhangle_dev@outlook.com>",
+	"homepage": "https://github.com/lexmin0412/gcm/tree/main/packages/cli#readme",
+	"license": "ISC",
+	"main": "./lib/index.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"es",
+		"lib"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmmirror.com/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lexmin0412/gcm.git"
+	},
+	"scripts": {
+		"test": "node ./__tests__/cli.test.js",
+		"build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
+		"build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
+		"build": "npm run build:commonjs && npm run build:es",
+		"ts": "ts-node src/"
+	},
+	"bugs": {
+		"url": "https://github.com/lexmin0412/gcm/issues"
+	},
+	"devDependencies": {
+		"@types/node": "^18.6.3",
+		"rimraf": "^3.0.2",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.7.4"
+	},
+	"dependencies": {
+		"@lexmin0412/run": "^0.0.1",
+		"commander": "^9.4.0",
+		"figlet": "^1.5.2",
+		"inquirer": "8.2.3",
+		"latest-version": "5.1.0",
+		"picocolors": "^1.0.0",
+		"semver": "^7.3.7"
+	},
+	"types": "./lib/index.d.ts",
+	"jsnext:main": "./es/index.js",
+	"module": "./es/index.js"
+}

@@ -1,81 +1,73 @@
 {
-  "name": "@lexmin0412/gcm",
-  "version": "1.6.14",
-  "description": "快速切换本地 Git 用户配置",
-  "main": "./lib/index.js",
-  "bin": {
-    "gcm": "./bin/gcm.js",
-    "gitconf": "./bin/gcm.js"
-  },
-  "scripts": {
-    "test:version": "pnpm build && node lib/index.js --version",
-    "test:use": "pnpm build && node lib/index.js use github",
-    "test:add": "pnpm build && node lib/index.js add",
-    "test:remove": "pnpm build && node lib/index.js remove",
-    "test:list": "pnpm build && node lib/index.js list",
-    "test:scan": "pnpm build && node lib/index.js scan",
-    "test:current": "pnpm build && node lib/index.js current",
-    "test:doctor": "pnpm build && node lib/index.js doctor",
-    "test:upgrade": "pnpm build && node lib/index.js upgrade",
-    "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
-    "build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
-    "build": "npm run build:commonjs && npm run build:es",
-    "ts": "ts-node src/",
-    "prepublishOnly": "npm run build",
-    "release": "release-it --ci"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lexmin0412/gcm.git"
-  },
-  "keywords": [
-    "gcm",
-    "tools",
-    "cli",
-    "git",
-    "userConfig"
-  ],
-  "author": {
-    "name": "lexmin0412",
-    "email": "zhangle_dev@outlook.com",
-    "url": "https://blog.cellerchan.top"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lexmin0412/gcm/issues"
-  },
-  "homepage": "https://github.com/lexmin0412/gcm#readme",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "devDependencies": {
-    "@release-it/conventional-changelog": "^5.1.1",
-    "@types/inquirer": "^8.2.1",
-    "@types/node": "^18.6.3",
-    "@types/semver": "^7.3.12",
-    "release-it": "^15.5.0",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
-  },
-  "files": [
-    "es",
-    "lib"
-  ],
-  "types": "./lib/index.d.ts",
-  "jsnext:main": "./es/index.js",
-  "module": "./es/index.js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@lexmin0412/run": "^0.0.1",
-    "commander": "^9.4.0",
-    "figlet": "^1.5.2",
-    "inquirer": "8.2.3",
-    "latest-version": "5.1.0",
-    "picocolors": "^1.0.0",
-    "semver": "^7.3.7"
-  }
+	"name": "root",
+	"private": true,
+	"version": "1.6.14",
+	"description": "快速切换本地 Git 用户配置",
+	"main": "./lib/index.js",
+	"bin": {
+		"gcm": "./bin/gcm.js",
+		"gitconf": "./bin/gcm.js"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"scripts": {
+		"new:pkg": "lerna create",
+		"test:version": "pnpm build && node lib/index.js --version",
+		"test:use": "pnpm build && node lib/index.js use github",
+		"test:add": "pnpm build && node lib/index.js add",
+		"test:remove": "pnpm build && node lib/index.js remove",
+		"test:list": "pnpm build && node lib/index.js list",
+		"test:scan": "pnpm build && node lib/index.js scan",
+		"test:current": "pnpm build && node lib/index.js current",
+		"test:doctor": "pnpm build && node lib/index.js doctor",
+		"test:upgrade": "pnpm build && node lib/index.js upgrade",
+    "build": "pnpm --filter=@lexmin0412/gcm* run build",
+		"ts": "ts-node src/",
+		"ci:version": "lerna version patch --yes --conventional-commits --create-release github",
+		"ci:publish": "lerna publish from-package --yes"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lexmin0412/gcm.git"
+	},
+	"keywords": [
+		"gcm",
+		"tools",
+		"cli",
+		"git",
+		"userConfig"
+	],
+	"author": {
+		"name": "lexmin0412",
+		"email": "zhangle_dev@outlook.com",
+		"url": "https://blog.cellerchan.top"
+	},
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/lexmin0412/gcm/issues"
+	},
+	"homepage": "https://github.com/lexmin0412/gcm#readme",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"devDependencies": {
+		"@release-it/conventional-changelog": "^5.1.1",
+		"@types/inquirer": "^8.2.1",
+		"@types/node": "^18.6.3",
+		"@types/semver": "^7.3.12",
+		"lerna": "^8.1.2",
+		"release-it": "^15.5.0",
+		"rimraf": "^3.0.2",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.7.4"
+	},
+	"files": [
+		"es",
+		"lib"
+	],
+	"types": "./lib/index.d.ts",
+	"jsnext:main": "./es/index.js",
+	"module": "./es/index.js"
 }

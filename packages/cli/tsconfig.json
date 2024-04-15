@@ -8,5 +8,5 @@
 		"noImplicitAny": true,
 		"resolveJsonModule": true
 	},
-	"includes": ["packages/*"]
+	"includes": ["src/*"]
 }
