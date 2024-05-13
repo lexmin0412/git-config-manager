@@ -2,8 +2,8 @@
 import pc from 'picocolors'
 import inquirer from 'inquirer'
 import { readdirSync } from 'fs'
-import { isDirectory, getProjectConfig, getAllUserConfigs, getCurrentConfig } from './../utils'
-import { UserConfig } from '../types'
+import { getProjectConfig, getAllUserConfigs, getCurrentConfig } from '@lexmin0412/gcm-api'
+import { isDirectory } from '../utils'
 
 const homeDir = process.env.HOME
 const ignoredDirs = ['node_modules', 'dist', '.Trash']

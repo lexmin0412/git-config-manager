@@ -3,7 +3,7 @@ import latestVersion from "latest-version"
 import pc from 'picocolors'
 import inquirer from 'inquirer'
 import { gt } from 'semver'
-import { getPkgJson } from './../utils'
+import { getPkgJson } from '@lexmin0412/gcm-api'
 
 export const upgrade = async() => {
 	const pkgJson = getPkgJson()

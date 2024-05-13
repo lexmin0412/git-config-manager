@@ -1,0 +1,62 @@
+{
+  "name": "gcm-vscode",
+  "displayName": "GCM VSCode",
+  "description": "GCM 的 VSCode 插件",
+  "private": true,
+  "version": "0.0.1",
+  "publisher": "lexmin0412",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/lexmin0412/git-config-manager",
+    "directory": "packages/vsc-ext"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gcm-vscode.use",
+        "title": "GCM: Use defined config"
+      },
+			{
+				"command": "gcm-vscode.open",
+				"title": "GCM: Open current file on remote"
+			}
+    ]
+  },
+  "scripts": {
+		"vsce:package": "vsce package",
+		"vsce:publish": "vsce publish",
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.26.1",
+    "eslint": "^8.36.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@lexmin0412/gcm-api": "workspace:*"
+  }
+}

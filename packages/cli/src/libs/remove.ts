@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { removeConfig, createEmptyJsonWhenNeeds } from '../utils/index'
+import { removeConfig, createEmptyJsonWhenNeeds } from '@lexmin0412/gcm-api'
 
 export const remove = () => {
 	inquirer
