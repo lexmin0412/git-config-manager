@@ -4,7 +4,8 @@ import { getAllUserConfigs } from '@lexmin0412/gcm-api'
 
 let myStatusBarItem: vscode.StatusBarItem;
 const EVENTS = {
-	use: 'gcm-vscode.use'
+	use: 'gcm-vscode.use',
+	open: 'gcm-vscode.open',
 };
 
 // 初始化状态栏
@@ -44,9 +45,27 @@ const registerCommand = (context: vscode.ExtensionContext) => {
 	context.subscriptions.push(disposable);
 };
 
+const registerOpenFileCommand = (context: vscode.ExtensionContext) => {
+	let disposable = vscode.commands.registerCommand(EVENTS.open, async() => {
+
+		// 获取当前聚焦的文件路径
+		const currentEditorPath = vscode.window.activeTextEditor?.document.uri.path
+		console.log('currentEditorPath', currentEditorPath)
+
+		// 获取仓库 base
+		const repoDomain = await execSync('git remote get-url origin', {}).toString().trim()
+		console.log('repoDomain', repoDomain)
+
+		// 打开一个外部链接
+		vscode.env.openExternal(vscode.Uri.parse(`https://github.com/lexmin0412`))
+	})
+	context.subscriptions.push(disposable);
+}
+
 // 扩展激活
 export async function activate(context: vscode.ExtensionContext) {
 	registerCommand(context);
+	registerOpenFileCommand(context);
 	await initStatusBar(context);
 }
 

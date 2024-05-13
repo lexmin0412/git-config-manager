@@ -24,8 +24,12 @@
     "commands": [
       {
         "command": "gcm-vscode.use",
-        "title": "GCM: Use Defined Config"
-      }
+        "title": "GCM: Use defined config"
+      },
+			{
+				"command": "gcm-vscode.open",
+				"title": "GCM: Open current file on remote"
+			}
     ]
   },
   "scripts": {
