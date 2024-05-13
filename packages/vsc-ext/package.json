@@ -2,7 +2,7 @@
   "name": "gcm-vscode",
   "displayName": "GCM VSCode",
   "description": "GCM 的 VSCode 插件",
-	"private": true,
+  "private": true,
   "version": "0.0.1",
   "publisher": "lexmin0412",
   "engines": {
@@ -14,7 +14,7 @@
   "repository": {
     "type": "github",
     "url": "https://github.com/lexmin0412/git-config-manager",
-		"directory": "packages/vsc-ext"
+    "directory": "packages/vsc-ext"
   },
   "activationEvents": [
     "*"
@@ -29,6 +29,8 @@
     ]
   },
   "scripts": {
+		"vsce:package": "vsce package",
+		"vsce:publish": "vsce publish",
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
@@ -44,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.26.1",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
