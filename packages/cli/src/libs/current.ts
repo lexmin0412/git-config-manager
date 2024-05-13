@@ -1,4 +1,4 @@
-import { getCurrentConfig, getAllUserConfigs } from './../utils/index'
+import { getCurrentConfig, getAllUserConfigs } from '@lexmin0412/gcm-api'
 import { UserConfig } from './../types'
 import pc from 'picocolors'
 

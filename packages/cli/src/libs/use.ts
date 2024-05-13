@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath } from './../utils/index'
+import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath } from '@lexmin0412/gcm-api'
 import { runCmdSync } from '@lexmin0412/run'
 import pc from 'picocolors'
 

@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { getAllUserConfigs, getCurrentConfig } from './../utils'
+import { getAllUserConfigs, getCurrentConfig } from '@lexmin0412/gcm-api'
 import { UserConfig } from '../types'
 
 

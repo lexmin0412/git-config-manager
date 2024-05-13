@@ -1,8 +1,7 @@
 import inquirer from 'inquirer';
 import pc from 'picocolors'
-import { addConfig, createEmptyJsonWhenNeeds } from '../utils/index'
+import { addConfig, createEmptyJsonWhenNeeds, getAllUserConfigs } from '@lexmin0412/gcm-api'
 import { DEFAULT_ORIGINS } from '../constants';
-import { getAllUserConfigs } from './../utils/index';
 
 const flatOrigins = DEFAULT_ORIGINS.map((item)=>item.origin)
 
