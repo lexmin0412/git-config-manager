@@ -11,7 +11,7 @@ export const upgrade = async() => {
 	const currentVersion = pkgJson.version
 
 	if ( newVersion === currentVersion ) {
-		console.log(pc.green(`'当前已是最新版本', ${currentVersion}`))
+		console.log(pc.green(`当前已是最新版本: ${currentVersion}`))
 		process.exit(0)
 	}
 
