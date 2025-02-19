@@ -10,11 +10,12 @@ import puppeteer from "puppeteer";
 
 // 获取本地用户配置
 const localUserConfigs = getAllUserConfigs();
-console.log("localUserConfigs", localUserConfigs);
 
 const TEMP_FOLDER_NAME = "sync_temp_workspace";
+// GCM 配置目录
+const GCM_CONFIG_DIR = path.join(os.homedir(), ".gcm")
 // 创建临时工作目录，准备同步配置
-const tempDir = path.join(os.homedir(), ".gcm", TEMP_FOLDER_NAME);
+const tempDir = path.join(GCM_CONFIG_DIR, TEMP_FOLDER_NAME);
 // 如果已存在，则递归清除目录
 if (fs.existsSync(tempDir)) {
 	fs.rmSync(tempDir, { recursive: true });
@@ -24,8 +25,16 @@ fs.mkdirSync(tempDir);
 // 下载远程用户配置
 const cloneConfigRepo = async () => {
 	console.log("开始下载远程配置");
-	// TODO 更换为用户的配置仓库
-	execSync("git clone git@github.com:lexmin0412/config.git", {
+
+	// 获取用户配置仓库
+	const { configRepoUrl } = await inquirer.prompt([
+		{
+			type: "input",
+			name: "configRepo",
+			message: "请输入配置仓库地址（建议使用 SSH 地址）",
+		}
+	])
+	execSync(`git clone ${configRepoUrl}`, {
 		cwd: tempDir,
 	});
 	console.log("下载远程配置成功");
