@@ -26,7 +26,8 @@ export const upgrade = async() => {
 		]).then((answers) => {
 			const confirmed = answers.confirmed
 			if (confirmed) {
-				runCmdSync(`npm install ${pkgJson.name}@${newVersion} -g`)
+			  runCmdSync(`npm install ${pkgJson.name}@${newVersion} -g`);
+			  console.log(pc.green(`✓ 成功升级到 v${newVersion}`));
 			} else {
 				console.log('canceled')
 				process.exit(0)
