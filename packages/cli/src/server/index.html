@@ -1,22 +1,43 @@
 <!-- index.html -->
 <!DOCTYPE html>
-<html  lang="en">
-<head>
-  <title>CLI Browser Interaction</title>
-</head>
-<body>
-  <h1>操作监控页面</h1>
+<html lang="en">
+	<head>
+		<title>CLI Browser Interaction</title>
+		<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+	</head>
+	<body>
+		<div class="p-6 max-w-7xl mx-auto">
+			<h1 class="text-2xl font-semibold text-gray-700 mb-6">GCM 冲突处理</h1>
 
-  <!-- 示例交互元素 -->
-  <button id="testBtn">测试按钮</button>
-  <form id="testForm">
-    <input type="text" name="username">
-    <button type="submit">提交</button>
-  </form>
+			<div class="flex items-start gap-4 w-full h-96">
+				<div class="flex-1 h-full flex flex-col">
+					<h3 class="text-lg font-medium text-gray-700 mb-2">本地配置</h3>
+					<textarea
+						id="localConfig"
+						class="w-full flex-1 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 focus:ring-2 focus:ring-blue-100 focus:border-blue-300 focus:outline-none transition-all duration-200"
+					></textarea>
+				</div>
+				<div class="flex-1 h-full flex flex-col">
+					<h3 class="text-lg font-medium text-gray-700 mb-2">远程配置</h3>
+					<textarea
+						id="remoteConfig"
+						class="w-full flex-1 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 focus:ring-2 focus:ring-blue-100 focus:border-blue-300 focus:outline-none transition-all duration-200"
+					></textarea>
+				</div>
+			</div>
 
-  <!-- 注入监控脚本 -->
-  <script>
-    // 这里放置之前提供的WebSocket客户端代码
-  </script>
-</body>
+			<div class="mt-8">
+				<div class="flex items-center mb-3">
+					<h3 class="text-lg font-medium text-gray-700 mb-2 flex-1">
+						合并后配置
+					</h3>
+					<button class="px-3 h-8 leading-8 bg-blue-500 text-white rounded" id="submit_btn">提交</button>
+				</div>
+				<textarea
+					id="mergedConfig"
+					class="w-full flex-1 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 focus:ring-2 focus:ring-blue-100 focus:border-blue-300 focus:outline-none transition-all duration-200"
+				></textarea>
+			</div>
+		</div>
+	</body>
 </html>
