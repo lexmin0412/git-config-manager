@@ -1,11 +1,9 @@
-# `api`
+# @lexmin0412/gcm-api
 
-> TODO: description
+Git 配置管理工具的 Node.js API 模块
 
-## Usage
+## 安装
 
-```
-const api = require('api');
-
-// TODO: DEMONSTRATE API
+```bash
+npm install @lexmin0412/gcm-api
 ```
