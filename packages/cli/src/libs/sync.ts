@@ -183,33 +183,11 @@ const createServerAndOpenPage = async () => {
 
 // 判断本地配置是否与远程配置一致
 const remoteUserConfigs = JSON.parse(fs.readFileSync(configPath, "utf8"));
-// 逐个元素对比
-const isEqual = (
-	localUserConfigs: UserConfig[],
-	remoteUserConfigs: UserConfig[]
-) => {
-	let result = true;
-	if (localUserConfigs.length !== remoteUserConfigs.length) {
-		result = false;
-		return result;
-	}
-	for (let i = 0; i < localUserConfigs.length; i++) {
-		const localUserConfig = localUserConfigs[i];
-		const remoteUserConfig = remoteUserConfigs[i];
-		if (localUserConfig.alias !== remoteUserConfig.alias) {
-			result = false;
-		}
-		if (localUserConfig.name !== remoteUserConfig.name) {
-			result = false;
-		}
-		if (localUserConfig.email !== remoteUserConfig.email) {
-			result = false;
-		}
-		if (localUserConfig.origin !== remoteUserConfig.origin) {
-			result = false;
-		}
-	}
-	return result;
+// 对比远程和本地配置是否一致
+const isEqual = (local: UserConfig[], remote: UserConfig[]) => {
+	const hash = (arr: UserConfig[]) =>
+		arr.map(c => `${c.alias}:${c.name}:${c.email}:${c.origin}`).join('|');
+	return hash(local) === hash(remote);
 };
 if (!remoteUserConfigs?.length) {
 	// 远程配置不存在，直接写入本地配置
