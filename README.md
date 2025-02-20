@@ -81,6 +81,24 @@ npm install @lexmin0412/gcm -g
 
 更新全局 `gcm` 到 latest 版本。
 
+### `gcm sync`
+
+> 注：v1.8.0 以上版本支持。
+
+同步 GCM 配置到远程仓库。
+
+### `gcm get-config`
+
+> 注：v1.8.0 以上版本支持。
+
+获取 GCM 的同步配置。
+
+### `gcm set-config`
+
+> 注：v1.8.0 以上版本支持。
+
+修改 GCM 的同步配置。
+
 
 ## 更新日志
 
