@@ -5,12 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.7.2 (2025-02-20)
 
-**Note:** Version bump only for package @lexmin0412/gcm
-
-
-
-
-
-## 1.7.1 (2024-04-15)
-
-**Note:** Version bump only for package @lexmin0412/gcm
+**Note:** Version bump only for package @lexmin0412/gcm-api

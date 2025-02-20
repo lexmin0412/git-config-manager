@@ -3,7 +3,7 @@
   "displayName": "GCM VSCode",
   "description": "GCM 的 VSCode 插件",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.7.2",
   "publisher": "lexmin0412",
   "engines": {
     "vscode": "^1.75.0"
@@ -26,15 +26,15 @@
         "command": "gcm-vscode.use",
         "title": "GCM: Use defined config"
       },
-			{
-				"command": "gcm-vscode.open",
-				"title": "GCM: Open current file on remote"
-			}
+      {
+        "command": "gcm-vscode.open",
+        "title": "GCM: Open current file on remote"
+      }
     ]
   },
   "scripts": {
-		"vsce:package": "vsce package",
-		"vsce:publish": "vsce publish",
+    "vsce:package": "vsce package",
+    "vsce:publish": "vsce publish",
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
