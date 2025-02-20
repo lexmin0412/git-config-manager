@@ -9,17 +9,17 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-			# checkout 代码
+      # checkout 代码
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 获取完整历史
           clean: true # 清理工作目录
-			# 准备 node
+      # 准备 node
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-			# 准备 pnpm
+      # 准备 pnpm
       - uses: pnpm/action-setup@v4
         with:
           version: 8
@@ -46,5 +46,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
           GH_TOKEN: ${{secrets.COMMIT_TOKEN}}
         run: |
-         pnpm ci:version
-         pnpm ci:publish
+          pnpm ci:version
+          pnpm ci:publish
