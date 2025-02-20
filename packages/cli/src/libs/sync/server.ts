@@ -64,8 +64,17 @@ export const createServerAndOpenPage = async (options: {
 				if (event.target === 'submit_btn') {
 
 					// TODO 校验配置
-
-					cb('success', JSON.parse(event.data))
+					let parsedData = []
+					try {
+						parsedData = JSON.parse(event.data)
+					} catch (e) {
+						console.log('解析失败', e)
+					}
+					if (!parsedData?.length) {
+						console.error('配置为空，请检查配置是否正确')
+						process.exit(1);
+					}
+					cb('success', parsedData)
 					browser.close();
 				}
 			});
