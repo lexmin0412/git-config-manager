@@ -22,7 +22,7 @@
 		"test:current": "pnpm build && node lib/index.js current",
 		"test:doctor": "pnpm build && node lib/index.js doctor",
 		"test:upgrade": "pnpm build && node lib/index.js upgrade",
-    "build": "pnpm --filter=@lexmin0412/gcm* run build",
+		"build": "pnpm --filter=@lexmin0412/gcm* run build",
 		"ts": "ts-node src/",
 		"ci:version": "lerna version patch --yes --conventional-commits --create-release github",
 		"ci:publish": "lerna publish from-package --yes"
@@ -69,5 +69,6 @@
 	],
 	"types": "./lib/index.d.ts",
 	"jsnext:main": "./es/index.js",
-	"module": "./es/index.js"
+	"module": "./es/index.js",
+	"packageManager": "pnpm@8.1.0+sha512.7b61fbdf04d1c667397d617fe9026a6eec14e8edcd455642d46d561571bc12a7cdffe641bbc5d51c96703c7e978740f16c4a19830f3fc32daeb60083c0fbb84a"
 }
