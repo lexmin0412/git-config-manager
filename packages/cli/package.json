@@ -1,6 +1,6 @@
 {
 	"name": "@lexmin0412/gcm",
-	"version": "1.7.3",
+	"version": "1.8.0",
 	"description": "GCM 的命令行接口",
 	"bin": {
 		"gcm": "./bin/gcm.js",
