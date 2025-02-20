@@ -16,8 +16,8 @@ export const add = async() => {
 			}])
 
 	const userList = getAllUserConfigs()
-	const alisExisted = userList.some((user)=>user.alias === alias)
-	if (alisExisted) {
+	const aliasExisted = userList.some((user)=>user.alias === alias)
+	if (aliasExisted) {
 		console.error(pc.red('别名已存在，请调整后重试哦～'))
 		process.exit(1)
 	}
