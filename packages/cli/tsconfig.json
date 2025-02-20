@@ -6,7 +6,9 @@
 		"alwaysStrict": true,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"skipDefaultLibCheck": true,
+		"skipLibCheck": true
 	},
 	"includes": ["src/*"]
 }
