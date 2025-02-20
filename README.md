@@ -2,7 +2,9 @@
 
 git 用户配置管理工具。
 
-![version](https://img.shields.io/npm/v/@lexmin0412/gcm) ![workflow](https://img.shields.io/github/workflow/status/lexmin0412/gcm/publish%20node%20package?label=workflow) ![licence](https://img.shields.io/npm/l/@lexmin0412/gcm) ![downloads-month](https://img.shields.io/npm/dm/@lexmin0412/gcm)
+![version](https://img.shields.io/npm/v/@lexmin0412/gcm) ![NPM Last Update](https://img.shields.io/npm/last-update/@lexmin0412/gcm) ![NPM Downloads](https://img.shields.io/npm/dm/@lexmin0412/gcm) ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/lexmin0412/git-config-manager)
+
+![Repo Beats](https://repobeats.axiom.co/api/embed/7b1fdf8c60db6bc080c1086aeb519fbc19531717.svg "Repobeats analytics image")
 
 ## 目录
 
@@ -103,3 +105,7 @@ npm install @lexmin0412/gcm -g
 ## 更新日志
 
 [点我](https://github.com/lexmin0412/gcm/releases) 前往。
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=lexmin0412/git-config-manager&type=Date)](https://star-history.com/#lexmin0412/git-config-manager&Date)
