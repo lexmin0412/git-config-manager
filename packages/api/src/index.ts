@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as os from 'os'
 import { execSync } from 'child_process'
-import { UserConfig } from './types'
+import { ISyncConfig, UserConfig } from './types'
 import pc from 'picocolors'
 
 const USER_HOME = os.homedir()
@@ -65,6 +65,7 @@ export const isConfigJsonExists = () => {
 }
 
 export const readConfigs = (): {
+	sync: ISyncConfig
 	users: UserConfig[]
 } => {
 	createEmptyJsonWhenNeeds()

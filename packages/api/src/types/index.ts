@@ -8,3 +8,13 @@ export interface UserConfig {
 export interface Origin {
 	origin: string
 }
+
+/**
+ * 同步配置
+ */
+export interface ISyncConfig {
+	type: 'github'
+	repoUrl: string
+	dir: string
+	filename: string
+}
