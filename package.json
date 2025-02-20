@@ -24,7 +24,7 @@
 		"test:upgrade": "pnpm build && node lib/index.js upgrade",
 		"build": "pnpm --filter=@lexmin0412/gcm* run build",
 		"ts": "ts-node src/",
-		"ci:version": "lerna version --yes --conventional-commits --create-release github --verbose",
+		"ci:version": "lerna version --yes --conventional-commits --create-release github",
 		"ci:publish": "lerna publish from-package --yes"
 	},
 	"repository": {
