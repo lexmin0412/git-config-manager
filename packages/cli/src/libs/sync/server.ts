@@ -15,7 +15,7 @@ export const createServerAndOpenPage = async (options: {
 			const purePath = req.url?.slice(0, req.url.indexOf("?"));
 			if (!purePath || purePath === "/") {
 				const html = fs.readFileSync(
-					path.join(__dirname, "../../server/index.html")
+					path.join(__dirname, "../../../server/index.html")
 				);
 				res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
 				return res.end(html);
@@ -44,9 +44,7 @@ export const createServerAndOpenPage = async (options: {
 				headless: false,
 			});
 			const page = await browser.newPage();
-			await page.goto(url, {
-
-			});
+			await page.goto(url);
 			// 给页面注入全局变量
 			await page.addScriptTag({
 				content: `
@@ -59,7 +57,7 @@ export const createServerAndOpenPage = async (options: {
 			`,
 			});
 			// 监听页面中的点击事件
-			await page.exposeFunction("onClickEvent", (event) => {
+			await page.exposeFunction("onClickEvent", (event: any) => {
 				console.log("点击事件发生:", event);
 				if (event.target === 'submit_btn') {
 
@@ -86,8 +84,11 @@ export const createServerAndOpenPage = async (options: {
 					console.log('合并输入框', document.querySelector('#mergedConfig'))
 					console.log('合并输入框的值', document.querySelector('#mergedConfig')?.innerHTML)
 					// 调用 Node.js 中暴露的函数
+					// @ts-ignore
 					window.onClickEvent({
-						target: event.target.id,
+						// @ts-ignore
+						target: event.target?.id,
+						// @ts-ignore
 						data: document.querySelector('#mergedConfig')?.value
 					});
 				});

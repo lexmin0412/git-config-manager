@@ -1,9 +1,12 @@
+import EventEmitter from 'events'
 import * as path from 'path'
 import pc from "picocolors"
 import { program } from 'commander'
 import { gt } from 'semver'
 import { add, current, doctor, list, remove, scan, upgrade, use } from './libs'
 import notification from './notification.json'
+import { sync } from './libs/sync'
+import { getConfig, setConfig } from './libs/config'
 const figlet = require('figlet')
 const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
@@ -12,7 +15,6 @@ if (gt('1.4.0', pkgJson.version)) {
 	console.log(pc.yellow(notification.text))
 }
 console.log('');
-
 
 const artText = figlet.textSync('G C M', {
 	font: 'Standard',
@@ -24,6 +26,9 @@ const artText = figlet.textSync('G C M', {
 
 console.log(`> gcm ${process.argv[2]}
 ${pc.green(artText)}`);
+
+// 解决事件监听过多，运行命令后弹出警告信息的问题（默认最大监听器数量为 10 个）
+EventEmitter.setMaxListeners(20)
 
 program
 	.version(pkgJson.version)
@@ -113,6 +118,45 @@ program
 	.action(() => {
 		try {
 			upgrade()
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('get-config <type>')
+	.description('get configuration')
+	.action((type: 'sync') => {
+		try {
+			getConfig(type)
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('set-config <type>')
+	.description('update configuration')
+	.action((type: 'sync') => {
+		try {
+			setConfig(type)
+		} catch (error) {
+			console.error(error)
+			process.exit(1)
+		}
+	})
+
+program
+	.version(pkgJson.version)
+	.command('sync')
+	.description('sync config to remote')
+	.action(() => {
+		try {
+			sync()
 		} catch (error) {
 			console.error(error)
 			process.exit(1)

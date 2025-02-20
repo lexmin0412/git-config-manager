@@ -1,8 +1,11 @@
 import fs from 'fs'
 import inquirer from "inquirer";
-import { CONFIG_FOLDER_PATH, GCM_CONFIG_FILE_PATH, REPO_FOLDER_PATH, TEMP_SYNC_DIR } from "./const";
+import { CONFIG_REPO_NAME, REPO_FOLDER_PATH, TEMP_SYNC_DIR } from "./const";
 import { execSync, type ExecSyncOptionsWithBufferEncoding } from "child_process";
 import { UserConfig } from '../../types';
+import { readConfigs } from '@lexmin0412/gcm-api';
+import { setConfig  as setSyncConfig } from '../config'
+import path from 'path';
 
 /**
  * 执行命令行脚本的统一选项
@@ -24,15 +27,25 @@ export const cloneConfigRepo = async () => {
 	// 创建临时工作目录
 	fs.mkdirSync(TEMP_SYNC_DIR);
 
-	// 获取用户配置仓库
-	const { configRepoUrl } = await inquirer.prompt([
-		{
-			type: "input",
-			name: "configRepoUrl",
-			message: "请输入配置仓库地址（建议使用 SSH 地址）",
+	// 获取用户配置仓库地址
+	const { sync } = readConfigs()
+	if (!sync?.repoUrl) {
+		const { isContinue } = await inquirer.prompt([
+			{
+				type: "confirm",
+				name: "isContinue",
+				message: "检测到同步配置不存在, 是否立即配置?",
+				default: true,
+			}
+		])
+		if (!isContinue) {
+			console.log("已取消同步配置")
+			process.exit(0)
 		}
-	])
-	execSync(`git clone ${configRepoUrl}`, {
+		await setSyncConfig('sync')
+	}
+	const { sync: newSyncConfig } = readConfigs()
+	execSync(`git clone ${newSyncConfig.repoUrl} ${CONFIG_REPO_NAME}`, {
 		cwd: TEMP_SYNC_DIR,
 	});
 	console.log("下载远程配置成功");
@@ -43,10 +56,12 @@ export const cloneConfigRepo = async () => {
  */
 export const writeConfigIntoLocalRepo = async (config: UserConfig[]) => {
 	console.log("开始写入配置到本地仓库");
-	// 判断 configFolder 是否存在，否则新建目录
+	const { sync } = readConfigs()
+	const CONFIG_FOLDER_PATH = path.join(REPO_FOLDER_PATH, sync.dir);
 	if (!fs.existsSync(CONFIG_FOLDER_PATH)) {
 		fs.mkdirSync(CONFIG_FOLDER_PATH);
 	}
+	const GCM_CONFIG_FILE_PATH = path.join(CONFIG_FOLDER_PATH, sync.filename);
 	// 判断 configPath 是否存在，否则新建文件
 	if (!fs.existsSync(GCM_CONFIG_FILE_PATH)) {
 		fs.writeFileSync(GCM_CONFIG_FILE_PATH, "{}");
@@ -73,6 +88,7 @@ export const pushConfig = async () => {
 			message: "请输入你的 git 邮箱",
 		},
 	]);
+	console.log(`用户: ${name}, ${email}`)
 	execSync(`git config user.name ${name}`, EXEC_OPTIONS);
 	execSync(`git config user.email ${email}`, EXEC_OPTIONS);
 	execSync("git add .", EXEC_OPTIONS);
