@@ -22,7 +22,7 @@ jobs:
       # 准备 pnpm
       - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.1.0
           cache: pnpm
       # 配置 git 用户
       - name: Setup git user
