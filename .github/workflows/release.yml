@@ -9,7 +9,10 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 获取完整历史
+          clean: true # 清理工作目录
       - uses: actions/setup-node@v1
         with:
           node-version: 18
@@ -19,6 +22,10 @@ jobs:
       - run: npm install pnpm -g
       - run: pnpm install
       - run: pnpm build
+      - name: Sync git tags
+        run: |
+          git fetch --prune --prune-tags  # 清理已删除的远程标签
+          git fetch --tags -f             # 强制更新所有标签
       - name: Publish with Lerna
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
