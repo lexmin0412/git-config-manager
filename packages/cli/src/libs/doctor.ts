@@ -12,6 +12,10 @@ export const doctor = () => {
 	const currentRemote = currentRemoteOrigin.split('\n')[0]
 	const allConfigs = getAllUserConfigs()
 	const currentConfig = getCurrentConfig()
+	if (!currentConfig) {
+		console.log('未检测到当前 git 用户配置，请先设置 user.name 和 user.email')
+		return
+	}
 	const curMatchedItem: UserConfig | undefined = allConfigs.find((config: UserConfig) => currentRemote.includes(config.origin))
 	if ( curMatchedItem ) {
 		if ( currentConfig.name === curMatchedItem.name && currentConfig.email === curMatchedItem.email ) {

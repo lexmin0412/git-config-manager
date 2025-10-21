@@ -20,6 +20,7 @@ export const isValidUserConfig = (configStr: string) => {
 
 export const isCurrentConfig = (configStr: string) => {
 	const currentConfig = getCurrentConfig()
+	if (!currentConfig) return false
 	return `${currentConfig.name}<${currentConfig.email}>` === configStr
 }
 

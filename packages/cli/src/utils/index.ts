@@ -29,11 +29,18 @@ export const getPkgJson = () => {
 }
 
 export const getCurrentConfig = () => {
-	const currentUserName = execSync('git config --get user.name').toString().trim()
-	const currentUserEmail = execSync('git config --get user.email').toString().trim()
-	return {
-		name: currentUserName,
-		email: currentUserEmail
+	try {
+		const currentUserName = execSync('git config --get user.name').toString().trim()
+		const currentUserEmail = execSync('git config --get user.email').toString().trim()
+		if (!currentUserName || !currentUserEmail) {
+			return null
+		}
+		return {
+			name: currentUserName,
+			email: currentUserEmail
+		}
+	} catch {
+		return null
 	}
 }
 

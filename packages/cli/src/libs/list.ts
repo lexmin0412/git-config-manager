@@ -13,7 +13,7 @@ alias: ${config.alias}
 name: ${config.name}
 email: ${config.email}
 		`
-		if (config.name === currentConfig.name && config.email === currentConfig.email) {
+		if (currentConfig && config.name === currentConfig.name && config.email === currentConfig.email) {
 			console.log(pc.green(configStr));
 		} else {
 			console.log(configStr)
