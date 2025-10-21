@@ -3,7 +3,7 @@
   "displayName": "GCM VSCode",
   "description": "GCM 的 VSCode 插件",
   "private": true,
-  "version": "1.8.0",
+  "version": "1.8.1",
   "publisher": "lexmin0412",
   "engines": {
     "vscode": "^1.75.0"

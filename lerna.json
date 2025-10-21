@@ -1,12 +1,12 @@
 {
-	"$schema": "node_modules/lerna/schemas/lerna-schema.json",
-	"version": "1.8.0",
-	"npmClient": "pnpm",
-	"command": {
-		"version": {
-			"message": "chore(release): publish %s",
-			"conventionalCommits": true,
-			"createRelease": "github"
-		}
-	}
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "1.8.1",
+  "npmClient": "pnpm",
+  "command": {
+    "version": {
+      "message": "chore(release): publish %s",
+      "conventionalCommits": true,
+      "createRelease": "github"
+    }
+  }
 }

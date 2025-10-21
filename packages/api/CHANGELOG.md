@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/lexmin0412/git-config-manager/compare/v1.8.0...v1.8.1) (2025-10-21)
+
+**Note:** Version bump only for package @lexmin0412/gcm-api
+
+
+
+
+
 # [1.8.0](https://github.com/lexmin0412/git-config-manager/compare/v1.7.1...v1.8.0) (2025-02-20)
 
 
