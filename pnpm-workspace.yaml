@@ -1,2 +1,8 @@
 packages:
-  - 'packages/*'
+  - packages/*
+
+onlyBuiltDependencies:
+  - '@vscode/vsce-sign'
+  - keytar
+  - nx
+  - puppeteer
