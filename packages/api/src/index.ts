@@ -16,6 +16,31 @@ if ( !fs.existsSync(rootPath) ) {
 
 export const configJsonPath = path.resolve(rootPath, 'config.json')
 
+/**
+ * 检查 Git 环境是否可用
+ */
+export const checkGitEnv = () => {
+	try {
+		execSync('git --version', { stdio: 'ignore' })
+		return true
+	} catch {
+		console.error(pc.red('未检测到 Git 环境，请先安装 Git。'))
+		return false
+	}
+}
+
+/**
+ * 检查当前目录是否为 Git 仓库
+ */
+export const isGitRepo = (projectPath: string = process.cwd()) => {
+	try {
+		execSync('git rev-parse --is-inside-work-tree', { cwd: projectPath, stdio: 'ignore' })
+		return true
+	} catch {
+		return false
+	}
+}
+
 export const createEmptyJsonWhenNeeds = () => {
 	if (!fs.existsSync(configJsonPath)) {
 		const users: UserConfig[] = []
@@ -28,6 +53,7 @@ export const getPkgJson = () => {
 }
 
 export const getCurrentConfig = () => {
+	if (!checkGitEnv()) return null;
 	try {
 		const currentUserName = execSync('git config --get user.name').toString().trim()
 		const currentUserEmail = execSync('git config --get user.email').toString().trim()
@@ -93,25 +119,37 @@ export const getConfigByAlias = (alias: string) => {
 }
 
 export const getProjectConfig = (projectPath: string = process.cwd()) => {
-	const currentUserName = execSync('git config --get user.name', {
-		cwd: projectPath
-	}).toString().trim()
-	const currentUserEmail = execSync('git config --get user.email', {
-		cwd: projectPath
-	}).toString().trim()
-	return {
-		name: currentUserName,
-		email: currentUserEmail
+	if (!checkGitEnv() || !isGitRepo(projectPath)) {
+		return { name: '', email: '' }
+	}
+	try {
+		const currentUserName = execSync('git config --get user.name', {
+			cwd: projectPath
+		}).toString().trim()
+		const currentUserEmail = execSync('git config --get user.email', {
+			cwd: projectPath
+		}).toString().trim()
+		return {
+			name: currentUserName,
+			email: currentUserEmail
+		}
+	} catch {
+		return { name: '', email: '' }
 	}
 }
 
 export const setProjectConfig = (config: UserConfig, projectPath: string = process.cwd()) => {
+	if (!checkGitEnv()) return false;
+	if (!isGitRepo(projectPath)) {
+		console.error(pc.red('当前目录不是一个有效的 Git 仓库。'));
+		return false;
+	}
 	try {
 		execSync(`git config user.name "${config.name}"`, { cwd: projectPath });
 		execSync(`git config user.email "${config.email}"`, { cwd: projectPath });
 		return true
 	} catch (error) {
-		console.error(pc.red('设置 git 配置失败，请检查当前目录是否为 git 仓库'));
+		console.error(pc.red('设置 git 配置失败，请检查权限或配置。'));
 		return false
 	}
 }
