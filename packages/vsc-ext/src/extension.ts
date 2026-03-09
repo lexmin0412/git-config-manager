@@ -8,22 +8,57 @@ const EVENTS = {
 	open: 'gcm-vscode.open',
 };
 
+// 获取当前编辑器的 Git 用户信息
+const getGitUserInfo = async (uri?: vscode.Uri) => {
+	const currentPath = uri?.fsPath || vscode.window.activeTextEditor?.document.uri.fsPath;
+	if (!currentPath) return { name: '', email: '' };
+
+	const workDir = currentPath.slice(0, currentPath.lastIndexOf('/'));
+	try {
+		const userName = execSync('git config user.name', { cwd: workDir }).toString().trim();
+		const userEmail = execSync('git config user.email', { cwd: workDir }).toString().trim();
+		return { name: userName, email: userEmail };
+	} catch {
+		return { name: '', email: '' };
+	}
+};
+
+// 更新状态栏
+const updateStatusBar = async () => {
+	const { name, email } = await getGitUserInfo();
+	if (name || email) {
+		myStatusBarItem.text = `$(git-branch) ${name}${email ? ` <${email}>` : ''}`;
+		myStatusBarItem.show();
+	} else {
+		myStatusBarItem.hide();
+	}
+};
+
 // 初始化状态栏
 const initStatusBar = async (context: vscode.ExtensionContext) => {
-	const { subscriptions } = context;
-	const currentEditorPath = vscode.window.activeTextEditor?.document.uri.path
-	const workDir = currentEditorPath?.slice(0, currentEditorPath.lastIndexOf('/'))
-	const userName = await execSync('git config user.name', {
-		cwd: workDir
-	}).toString().trim();
-	const userEmail = await execSync('git config user.email', {
-		cwd: workDir
-	}).toString().trim();
 	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 300);
-	myStatusBarItem.command = EVENTS.use;  // 点击时执行命令
-	myStatusBarItem.text = `${userName}, ${userEmail}`;
-	subscriptions.push(myStatusBarItem);
-	myStatusBarItem.show();
+	myStatusBarItem.command = EVENTS.use;
+	context.subscriptions.push(myStatusBarItem);
+	await updateStatusBar();
+
+	// 监听编辑器切换
+	context.subscriptions.push(
+		vscode.window.onDidChangeActiveTextEditor(async () => {
+			await updateStatusBar();
+		})
+	);
+
+	// 监听文件变化 (针对 .git/config)
+	const watcher = vscode.workspace.createFileSystemWatcher('**/.git/config');
+	context.subscriptions.push(watcher);
+
+	const handleChange = async () => {
+		await updateStatusBar();
+	};
+
+	watcher.onDidChange(handleChange);
+	watcher.onDidCreate(handleChange);
+	watcher.onDidDelete(handleChange);
 };
 
 // 注册事件
@@ -58,8 +93,8 @@ const registerCommand = (context: vscode.ExtensionContext) => {
 		if (selectedItem) {
 			const success = setProjectConfig(selectedItem, workDir)
 			if (success) {
-				// 更新已经存在的状态栏文字
-				myStatusBarItem.text = `${selectedItem.name}, ${selectedItem.email}`
+				// 统一更新状态栏
+				await updateStatusBar();
 				vscode.window.showInformationMessage(`Git 配置已切换为: ${selectedItem.alias}`);
 			} else {
 				vscode.window.showErrorMessage('设置 Git 配置失败。请确保当前文件位于一个有效的 Git 仓库中。');
