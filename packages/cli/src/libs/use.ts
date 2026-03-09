@@ -1,6 +1,5 @@
 import * as fs from 'fs'
-import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath } from '@lexmin0412/gcm-api'
-import { runCmdSync } from '@lexmin0412/run'
+import { addConfig, createEmptyJsonWhenNeeds, getProjectConfig, configJsonPath, setProjectConfig, UserConfig } from '@lexmin0412/gcm-api'
 import pc from 'picocolors'
 
 export const readConfigs = () => {
@@ -14,11 +13,7 @@ export const getConfigByAlias = (alias: string) => {
 	return config || null
 }
 
-interface UserConfig {
-	alias: string
-	name: string
-	email: string
-}
+
 
 export const use = (alias: string) => {
 
@@ -56,6 +51,5 @@ user.email: ${currentConfig.email}`))
 }
 
 export const setConfig = (config: UserConfig) => {
-	runCmdSync(`git config user.name ${config.name}`)
-	runCmdSync(`git config user.email ${config.email}`)
+	setProjectConfig(config)
 }
