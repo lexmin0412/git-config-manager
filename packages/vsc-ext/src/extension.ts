@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { execSync } from 'child_process';
-import { getAllUserConfigs } from '@lexmin0412/gcm-api'
+import { getAllUserConfigs, setProjectConfig } from '@lexmin0412/gcm-api'
 
 let myStatusBarItem: vscode.StatusBarItem;
 const EVENTS = {
@@ -32,15 +32,40 @@ const registerCommand = (context: vscode.ExtensionContext) => {
 
 		// 打开一个选择框，让用户选择
 		const userConfig = getAllUserConfigs()
-		const selectOptions = userConfig.map((item=>item.alias))
+		const selectOptions = userConfig.map((item) => ({
+			label: item.alias,
+			description: `${item.name}, ${item.email}`,
+		}));
 		const selected = await vscode.window.showQuickPick(selectOptions, {
 			placeHolder: '请选择你的配置',
 		})
-		const selectedItem = userConfig.find(item=>item.alias === selected)
-		// 更新已经存在的状态栏文字
-		myStatusBarItem.text = `${selectedItem?.name}, ${selectedItem?.email}`
 
-		vscode.window.showInformationMessage('gcm use 执行成功!');
+		// 用户取消选择
+		if (!selected) {
+			return;
+		}
+
+		const selectedItem = userConfig.find(item=>item.alias === selected.label)
+
+		const currentEditorPath = vscode.window.activeTextEditor?.document.uri.path
+		const workDir = currentEditorPath?.slice(0, currentEditorPath.lastIndexOf('/'))
+
+		if (!workDir) {
+			vscode.window.showErrorMessage('无法确定工作目录。请在目标 Git 仓库中打开一个文件再重试。');
+			return;
+		}
+
+		if (selectedItem) {
+			const success = setProjectConfig(selectedItem, workDir)
+			if (success) {
+				// 更新已经存在的状态栏文字
+				myStatusBarItem.text = `${selectedItem.name}, ${selectedItem.email}`
+				vscode.window.showInformationMessage(`Git 配置已切换为: ${selectedItem.alias}`);
+			} else {
+				vscode.window.showErrorMessage('设置 Git 配置失败。请确保当前文件位于一个有效的 Git 仓库中。');
+			}
+		}
+
 	});
 	context.subscriptions.push(disposable);
 };
