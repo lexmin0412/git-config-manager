@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as os from 'os'
 import { execSync } from 'child_process'
 import { ISyncConfig, UserConfig } from './types'
+export { UserConfig } from './types'
 import pc from 'picocolors'
 
 const USER_HOME = os.homedir()
@@ -101,5 +102,16 @@ export const getProjectConfig = (projectPath: string = process.cwd()) => {
 	return {
 		name: currentUserName,
 		email: currentUserEmail
+	}
+}
+
+export const setProjectConfig = (config: UserConfig, projectPath: string = process.cwd()) => {
+	try {
+		execSync(`git config user.name "${config.name}"`, { cwd: projectPath });
+		execSync(`git config user.email "${config.email}"`, { cwd: projectPath });
+		return true
+	} catch (error) {
+		console.error(pc.red('设置 git 配置失败，请检查当前目录是否为 git 仓库'));
+		return false
 	}
 }
