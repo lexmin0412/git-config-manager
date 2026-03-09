@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/lexmin0412/git-config-manager/compare/v1.8.1...v1.9.0) (2026-03-09)
+
+
+### Features
+
+* **vsc-ext:** 动态更新状态栏显示的 Git 用户信息 ([2cadc7d](https://github.com/lexmin0412/git-config-manager/commit/2cadc7d2f361ff4f3e59b7ca5d2960ac48b893b5))
+* **vsc-ext:** 改进 Git 配置切换功能并增强错误处理 ([ce512b4](https://github.com/lexmin0412/git-config-manager/commit/ce512b4899ac5cdbfe93532abc3a6a051221cc49))
+
+
+
+
+
 ## [1.8.1](https://github.com/lexmin0412/git-config-manager/compare/v1.8.0...v1.8.1) (2025-10-21)
 
 **Note:** Version bump only for package gcm-vscode

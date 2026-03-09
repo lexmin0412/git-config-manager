@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/lexmin0412/gcm/compare/v1.8.1...v1.9.0) (2026-03-09)
+
+
+### Features
+
+* **api:** 增加 Git 环境检查与仓库验证 ([7666eef](https://github.com/lexmin0412/gcm/commit/7666eef60ce0e51f02f86c8bb1170b655bad7a03))
+* **api:** 导出 UserConfig 类型并添加设置项目配置函数 ([e735ba4](https://github.com/lexmin0412/gcm/commit/e735ba46d6ca4e5b52f10e2d2c1c747db7225849))
+* **cli:** 为配置合并界面添加智能合并与快捷操作按钮 ([0ab78ba](https://github.com/lexmin0412/gcm/commit/0ab78baa9d44caedb97c749114b0fe1b5c023cb7))
+* **vsc-ext:** 动态更新状态栏显示的 Git 用户信息 ([2cadc7d](https://github.com/lexmin0412/gcm/commit/2cadc7d2f361ff4f3e59b7ca5d2960ac48b893b5))
+* **vsc-ext:** 改进 Git 配置切换功能并增强错误处理 ([ce512b4](https://github.com/lexmin0412/gcm/commit/ce512b4899ac5cdbfe93532abc3a6a051221cc49))
+
+
+
+
+
 ## [1.8.1](https://github.com/lexmin0412/gcm/compare/v1.8.0...v1.8.1) (2025-10-21)
 
 **Note:** Version bump only for package root

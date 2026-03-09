@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/lexmin0412/gcm/compare/v1.8.1...v1.9.0) (2026-03-09)
+
+
+### Features
+
+* **cli:** 为配置合并界面添加智能合并与快捷操作按钮 ([0ab78ba](https://github.com/lexmin0412/gcm/commit/0ab78baa9d44caedb97c749114b0fe1b5c023cb7))
+
+
+
+
+
 ## [1.8.1](https://github.com/lexmin0412/gcm/compare/v1.8.0...v1.8.1) (2025-10-21)
 
 **Note:** Version bump only for package @lexmin0412/gcm
