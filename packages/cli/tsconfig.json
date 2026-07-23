@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "node",
-		"esModuleInterop": true,
+		"moduleResolution": "nodenext",
+		"module": "NodeNext",
 		"lib": ["es6", "dom"],
-		"alwaysStrict": true,
+		"esModuleInterop": true,
+		"types": ["node"],
+		"rootDir": "src",
 		"strictNullChecks": true,
 		"noImplicitAny": true,
 		"resolveJsonModule": true,
-		"skipDefaultLibCheck": true,
 		"skipLibCheck": true
 	},
 	"includes": ["src/*"]

@@ -80,7 +80,7 @@ export const createServerAndOpenPage = async (options: {
 			// 在页面中注入 JavaScript 代码来监听点击事件
 			await page.evaluate(() => {
 
-				document.addEventListener("click", (event) => {
+				document.addEventListener("click", (event: MouseEvent) => {
 					console.log('合并输入框', document.querySelector('#mergedConfig'))
 					console.log('合并输入框的值', document.querySelector('#mergedConfig')?.innerHTML)
 					// 调用 Node.js 中暴露的函数

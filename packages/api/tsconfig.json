@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "lib": [
-      "es6"
-    ],
-    "alwaysStrict": true,
+    "moduleResolution": "nodenext",
+		"module": "nodenext",
+    "lib": ["es6"],
+    "esModuleInterop": true,
+    "types": ["node"],
+    "rootDir": "src",
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "skipLibCheck": true,
-		"esModuleInterop": true
+    "skipLibCheck": true
   },
-  "includes": [
-    "src/*"
-  ]
+  "includes": ["src/*"]
 }

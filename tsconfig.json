@@ -1,9 +1,8 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "node",
-		"esModuleInterop": true,
-		"lib": ["es6", "dom"],
-		"alwaysStrict": true,
+		"moduleResolution": "bundler",
+		"lib": ["es6"],
+		"types": ["node"],
 		"strictNullChecks": true,
 		"noImplicitAny": true,
 		"resolveJsonModule": true

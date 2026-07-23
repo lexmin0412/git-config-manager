@@ -32,8 +32,8 @@
 	},
 	"scripts": {
 		"test": "node ./__tests__/cli.test.js",
-		"build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
-		"build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
+		"build:commonjs": "rimraf lib && tsc --outDir lib --module commonjs --declaration",
+		"build:es": "rimraf es && tsc --outDir es --module es6",
 		"build": "npm run build:commonjs && npm run build:es",
 		"ts": "ts-node src/"
 	},

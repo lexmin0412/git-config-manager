@@ -5,4 +5,3 @@ onlyBuiltDependencies:
   - '@vscode/vsce-sign'
   - keytar
   - nx
-  - puppeteer
