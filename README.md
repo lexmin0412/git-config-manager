@@ -26,9 +26,41 @@ GCM, 全称 Git Config Manager，用于在不同工作区(目录) 灵活切换�
 
 ## 安装
 
+### 普通安装
+
 ```shell
 npm install @lexmin0412/gcm -g
 ```
+
+### 使用 nvm / fnm / volta 等 Node 版本管理工具
+
+如果你使用 nvm、fnm、volta 等工具管理 Node 版本，`npm install -g` 安装的包只对当前 Node 版本生效，切换版本后命令会找不到。
+
+**推荐方案：安装到固定路径**
+
+```bash
+# 1. 安装到 ~/.local 目录（不随 Node 版本变化）
+PUPPETEER_SKIP_DOWNLOAD=true npm install -g --prefix ~/.local @lexmin0412/gcm
+
+# 2. 在 ~/.zshrc 或 ~/.bashrc 中添加 PATH
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+
+# 3. 重新加载配置
+source ~/.zshrc
+```
+
+> **关于 PUPPETEER_SKIP_DOWNLOAD**
+> 
+> gcm 的 `sync` 命令依赖 puppeteer 来处理配置冲突，但核心功能（add/remove/use/scan/doctor）不需要。
+> 设置此环境变量可跳过下载 Chrome 浏览器（约 150MB），加快安装速度。
+> 如需使用 `gcm sync`，可后续单独安装 puppeteer。
+
+这样无论切换到哪个 Node 版本，`gcm` 命令都可用。
+
+> **为什么这样做？**
+> 
+> `npm install -g` 会把包装到当前 Node 版本的全局目录下（如 `~/.fnm/node-versions/v20.0.0/installation/lib/node_modules`）。
+> 使用 `--prefix` 可以指定一个固定安装路径，让 gcm 独立于任何 Node 版本。
 
 ## 功能
 
