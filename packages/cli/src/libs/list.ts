@@ -1,6 +1,5 @@
 import pc from 'picocolors'
-import { getAllUserConfigs, createEmptyJsonWhenNeeds, getCurrentConfig } from '@lexmin0412/gcm-api'
-import { UserConfig } from './../types'
+import { getAllUserConfigs, createEmptyJsonWhenNeeds, getCurrentConfig, UserConfig } from '@lexmin0412/gcm-api'
 
 export const list = () => {
 	createEmptyJsonWhenNeeds()

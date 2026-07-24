@@ -2,8 +2,7 @@ import fs from 'fs'
 import inquirer from "inquirer";
 import { CONFIG_REPO_NAME, REPO_FOLDER_PATH, TEMP_SYNC_DIR } from "./const";
 import { execSync, type ExecSyncOptionsWithBufferEncoding } from "child_process";
-import { UserConfig } from '../../types';
-import { readConfigs } from '@lexmin0412/gcm-api';
+import { UserConfig, readConfigs } from '@lexmin0412/gcm-api';
 import { setConfig  as setSyncConfig } from '../config'
 import path from 'path';
 

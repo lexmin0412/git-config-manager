@@ -1,5 +1,4 @@
-import { getCurrentConfig, getAllUserConfigs } from '@lexmin0412/gcm-api'
-import { UserConfig } from './../types'
+import { getCurrentConfig, getAllUserConfigs, UserConfig } from '@lexmin0412/gcm-api'
 import pc from 'picocolors'
 
 export const current = () => {

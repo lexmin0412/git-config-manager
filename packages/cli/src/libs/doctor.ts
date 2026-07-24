@@ -1,6 +1,5 @@
 import { execSync } from 'child_process'
-import { getAllUserConfigs, getCurrentConfig } from '@lexmin0412/gcm-api'
-import { UserConfig } from '../types'
+import { getAllUserConfigs, getCurrentConfig, UserConfig } from '@lexmin0412/gcm-api'
 
 
 export const doctor = () => {

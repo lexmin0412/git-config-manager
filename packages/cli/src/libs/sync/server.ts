@@ -2,7 +2,7 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import puppeteer from "puppeteer";
-import { UserConfig } from "../../types";
+import { UserConfig } from "@lexmin0412/gcm-api";
 
 export const createServerAndOpenPage = async (options: {
 	localConfig: UserConfig[],

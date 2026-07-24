@@ -1,4 +1,4 @@
-import { UserConfig } from "../../types";
+import { UserConfig } from "@lexmin0412/gcm-api";
 
 // 对比两份 GCM 配置是否一致
 export const isEqual = (local: UserConfig[], remote: UserConfig[]) => {
