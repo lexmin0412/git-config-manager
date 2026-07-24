@@ -40,7 +40,7 @@ npm install @lexmin0412/gcm -g
 
 ```bash
 # 1. 安装到 ~/.local 目录（不随 Node 版本变化）
-PUPPETEER_SKIP_DOWNLOAD=true npm install -g --prefix ~/.local @lexmin0412/gcm
+npm install -g --prefix ~/.local @lexmin0412/gcm
 
 # 2. 在 ~/.zshrc 或 ~/.bashrc 中添加 PATH
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
@@ -48,12 +48,6 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 # 3. 重新加载配置
 source ~/.zshrc
 ```
-
-> **关于 PUPPETEER_SKIP_DOWNLOAD**
-> 
-> gcm 的 `sync` 命令依赖 puppeteer 来处理配置冲突，但核心功能（add/remove/use/scan/doctor）不需要。
-> 设置此环境变量可跳过下载 Chrome 浏览器（约 150MB），加快安装速度。
-> 如需使用 `gcm sync`，可后续单独安装 puppeteer。
 
 这样无论切换到哪个 Node 版本，`gcm` 命令都可用。
 
