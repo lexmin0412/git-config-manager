@@ -7,6 +7,7 @@ import { add, current, doctor, list, remove, scan, upgrade, use } from './libs'
 import notification from './notification.json'
 import { sync } from './libs/sync'
 import { getConfig, setConfig } from './libs/config'
+import { handleError } from './utils'
 const figlet = require('figlet')
 const pkgJsonPath = path.resolve(__dirname, '..', 'package.json')
 const pkgJson = require(pkgJsonPath)
@@ -60,8 +61,7 @@ program
 			const options = program.opts()
 			await use(alias, { json: options.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -78,8 +78,7 @@ program
 			const globalOpts = program.opts()
 			await add({ ...options, json: globalOpts.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -94,8 +93,7 @@ program
 			const globalOpts = program.opts()
 			await remove({ ...options, json: globalOpts.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -109,8 +107,7 @@ program
 			const options = program.opts()
 			list({ json: options.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -125,8 +122,7 @@ program
 			const globalOpts = program.opts()
 			await scan({ ...options, json: globalOpts.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -139,8 +135,7 @@ program
 			const options = program.opts()
 			doctor({ json: options.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -153,8 +148,7 @@ program
 			const options = program.opts()
 			await upgrade({ json: options.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -166,8 +160,7 @@ program
 		try {
 			await getConfig(type as 'sync')
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -179,8 +172,7 @@ program
 		try {
 			await setConfig(type as 'sync')
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -192,8 +184,7 @@ program
 		try {
 			await sync()
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
@@ -207,8 +198,7 @@ program
 			const options = program.opts()
 			current({ json: options.json })
 		} catch (error) {
-			console.error(error)
-			process.exit(1)
+			handleError(error)
 		}
 	})
 
