@@ -4,8 +4,8 @@
 
 As a VSCode extension, `gcm-vscode` now has been published on marketplace, [click me](https://marketplace.visualstudio.com/items?itemName=lexmin0412.gcm-vscode) or type `lexmin0412.gcm-vscode` in search input in your VSCode's extension tab to install it.
 
-![marketplace](./marketplace.png)
+![marketplace](https://raw.githubusercontent.com/lexmin0412/git-config-manager/master/packages/vsc-ext/marketplace.png)
 
 Then click `Install` button and wait a second, your private git user config manager would be ready.
 
-![preview](./preview.png)
+![preview](https://raw.githubusercontent.com/lexmin0412/git-config-manager/master/packages/vsc-ext/preview.png)

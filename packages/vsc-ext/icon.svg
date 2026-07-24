@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- 主渐变：深邃的靛蓝到电光青 -->
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="50%" style="stop-color:#16213e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    
+    <!-- 强调色渐变 -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d9ff"/>
+      <stop offset="100%" style="stop-color:#00ff88"/>
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景：圆角方形 -->
+  <rect x="4" y="4" width="120" height="120" rx="28" ry="28" fill="url(#mainGrad)"/>
+  
+  <!-- 背景纹理：细微网格 -->
+  <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
+    <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+  </pattern>
+  <rect x="4" y="4" width="120" height="120" rx="28" ry="28" fill="url(#grid)"/>
+  
+  <!-- Git 分支线：主干 -->
+  <path d="M 64 95 L 64 35" stroke="url(#accentGrad)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Git 分支线：左侧分支 -->
+  <path d="M 64 55 Q 45 55 35 42" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+  
+  <!-- Git 分支线：右侧分支 -->
+  <path d="M 64 45 Q 83 45 93 32" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+  
+  <!-- 节点：底部（当前 HEAD） -->
+  <circle cx="64" cy="98" r="8" fill="url(#accentGrad)" filter="url(#glow)"/>
+  <circle cx="64" cy="98" r="4" fill="#1a1a2e"/>
+  
+  <!-- 节点：中间（活跃配置） -->
+  <circle cx="64" cy="55" r="6" fill="url(#accentGrad)" filter="url(#glow)" opacity="0.9"/>
+  
+  <!-- 节点：左侧（配置 A） -->
+  <circle cx="33" cy="40" r="5.5" fill="url(#accentGrad)" filter="url(#softGlow)" opacity="0.7"/>
+  
+  <!-- 节点：右侧（配置 B） -->
+  <circle cx="95" cy="30" r="5.5" fill="url(#accentGrad)" filter="url(#softGlow)" opacity="0.7"/>
+  
+  <!-- 用户标识：左侧配置 -->
+  <g transform="translate(33, 40)" opacity="0.9">
+    <circle cx="0" cy="-2" r="2.5" fill="#1a1a2e"/>
+    <path d="M -3.5 2 Q 0 5 3.5 2" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 用户标识：右侧配置 -->
+  <g transform="translate(95, 30)" opacity="0.9">
+    <circle cx="0" cy="-2" r="2.5" fill="#1a1a2e"/>
+    <path d="M -3.5 2 Q 0 5 3.5 2" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 切换箭头：连接活跃节点和 HEAD -->
+  <g filter="url(#glow)">
+    <path d="M 64 63 L 64 88" stroke="rgba(255,255,255,0.15)" stroke-width="8" stroke-linecap="round"/>
+    <!-- 箭头 -->
+    <path d="M 59 85 L 64 92 L 69 85" fill="none" stroke="rgba(0,217,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- 装饰：光晕点 -->
+  <circle cx="33" cy="40" r="12" fill="rgba(0,217,255,0.08)"/>
+  <circle cx="95" cy="30" r="12" fill="rgba(0,217,255,0.08)"/>
+  <circle cx="64" cy="55" r="10" fill="rgba(0,217,255,0.06)"/>
+  
+  <!-- 顶部装饰线 -->
+  <line x1="50" y1="18" x2="78" y2="18" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-linecap="round"/>
+</svg>
