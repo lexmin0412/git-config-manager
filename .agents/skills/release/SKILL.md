@@ -13,6 +13,10 @@ description: 基于 Changesets 的 Monorepo 发布流程。当用户说"发布"�
 - `@lexmin0412/gcm-api` (api) - API 包，发布到 npm
 - `gcm-vscode` (vsc-ext) - VSCode 插件，发布到 VSCode Marketplace，被 changeset ignore
 
+**版本同步策略**：三个包版本号保持一致，但发布渠道不同：
+- api + cli → npm（通过 changeset）
+- vsc-ext → VSCode Marketplace（通过 vsce publish）
+
 **linked 配置说明**：`gcm` 和 `gcm-api` 是 linked 关系，任一有 changeset → 两者都会发版。通常只需要给实际改动的包写 changeset。
 
 ## 核心约束
@@ -47,9 +51,9 @@ git log --oneline -10               # 展示最近 commit
 npm view @lexmin0412/gcm version
 npm view @lexmin0412/gcm-api version
 
-# 获取本地版本
-cat packages/cli/package.json | grep '"version"'
-cat packages/api/package.json | grep '"version"'
+# 获取本地版本（精确匹配 package.json 中的 version 字段）
+node -e "console.log(require('./packages/cli/package.json').version)"
+node -e "console.log(require('./packages/api/package.json').version)"
 ```
 
 判断逻辑：
@@ -127,6 +131,7 @@ git tag v<新版本号>   # 使用 gcm 的版本号，格式统一为 v 前缀
 npm view @lexmin0412/gcm@<新版本号> version 2>/dev/null && echo "版本已存在!" || echo "版本可发布"
 
 # 发布到 npm（使用 changeset publish，不是 pnpm -r publish）
+# changeset publish 会自动按依赖顺序发布：先 api，再 cli
 npx changeset publish
 
 # 推送
@@ -140,28 +145,28 @@ git push && git push --tags
 
 ### Step 5: VSCode 插件发布（如有变更）
 
-vsc-ext 被 changeset ignore，需要单独处理：
+vsc-ext 被 changeset ignore，需要单独处理，但版本号与 npm 包保持一致：
 
 ```bash
 # 检查 vsc-ext 是否有变更
 git log $(git describe --tags --abbrev=0)..HEAD --oneline packages/vsc-ext/
 
-# 如果有变更，手动升级版本
+# 如果有变更，同步版本号到与 cli/api 一致
 cd packages/vsc-ext
-npm version patch  # 或 minor/major
+npm version <新版本号> --no-git-tag-version  # 如 1.10.0
 
 # 发布到 VSCode Marketplace（需要 PAT）
 pnpm --filter gcm-vscode vsce:publish
 
 # 提交版本变更
 git add packages/vsc-ext/package.json
-git commit -m "chore(vsc-ext): bump version"
+git commit -m "chore(vsc-ext): sync version to <新版本号>"
 ```
 
 ### Step 6: 汇总
 
 报告：
-- 各包的新版本号
+- 各包的新版本号（npm 包 + vsc-ext 统一）
 - npm 发布结果
 - VSCode 插件发布结果（如有）
 - GitHub Release 链接（如需，执行 `gh release create v<version> --notes-from-tag`）
