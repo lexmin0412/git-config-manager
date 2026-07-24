@@ -180,18 +180,7 @@ const registerCurrentCommand = (context: vscode.ExtensionContext) => {
 			return;
 		}
 
-		const allConfigs = getAllUserConfigs();
-		const matched = allConfigs.find(c => c.name === currentConfig.name && c.email === currentConfig.email);
-
-		if (matched) {
-			vscode.window.showInformationMessage(
-				`当前配置: ${matched.alias}\nuser.name: ${currentConfig.name}\nuser.email: ${currentConfig.email}`
-			);
-		} else {
-			vscode.window.showWarningMessage(
-				`当前配置未在 GCM 列表中:\nuser.name: ${currentConfig.name}\nuser.email: ${currentConfig.email}`
-			);
-		}
+		vscode.window.showInformationMessage(`${currentConfig.name} <${currentConfig.email}>`);
 	});
 	context.subscriptions.push(disposable);
 };
