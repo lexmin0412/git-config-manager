@@ -27,72 +27,113 @@ export const isCurrentConfig = (configStr: string) => {
 	return `${currentConfig.name}<${currentConfig.email}>` === configStr
 }
 
+interface ScanOptions {
+	dir?: string
+	json?: boolean
+}
 
-export const scan = () => {
-	inquirer.prompt([
-		{
-			type: 'input',
-			name: 'dirPath',
-			message: '请输入需要扫描的文件夹路径（建议指定目录以提升扫描效率）',
-			default: homeDir
-		}
-	]).then((answers) => {
-		const dirPath = answers.dirPath
+interface ScanResult {
+	configs: Array<{
+		config: string
+		count: number
+		isValid: boolean
+		isCurrent: boolean
+	}>
+	projects: Array<{
+		path: string
+		config: string
+	}>
+}
 
-		let userConfigs: {
-			[key: string]: number
-		} = {}
+export const scan = async(options: ScanOptions = {}) => {
+	let dirPath = options.dir
 
-		const readConfig = (filePath: string) => {
-			if (isDirectory(filePath)) {
-				const files = readdirSync(filePath)
+	if (!dirPath) {
+		const answers = await inquirer.prompt([
+			{
+				type: 'input',
+				name: 'dirPath',
+				message: '请输入需要扫描的文件夹路径（建议指定目录以提升扫描效率）',
+				default: homeDir
+			}
+		])
+		dirPath = answers.dirPath
+	}
 
-				const isGitDir = () => {
-					return files.some((file) => file === '.git')
-				}
+	let userConfigs: {
+		[key: string]: number
+	} = {}
 
-				if (isGitDir()) {
-					try {
-						const {name, email} = getProjectConfig(filePath)
-						const stringifyConfig = `${name}<${email}>`
-						if (!userConfigs[stringifyConfig]) {
-							userConfigs[stringifyConfig] = 1
-						} else {
-							userConfigs[stringifyConfig] += 1
-						}
+	let projects: Array<{ path: string; config: string }> = []
+
+	const readConfig = (filePath: string) => {
+		if (isDirectory(filePath)) {
+			const files = readdirSync(filePath)
+
+			const isGitDir = () => {
+				return files.some((file) => file === '.git')
+			}
+
+			if (isGitDir()) {
+				try {
+					const {name, email} = getProjectConfig(filePath)
+					const stringifyConfig = `${name}<${email}>`
+					if (!userConfigs[stringifyConfig]) {
+						userConfigs[stringifyConfig] = 1
+					} else {
+						userConfigs[stringifyConfig] += 1
+					}
+					projects.push({ path: filePath, config: stringifyConfig })
+					if (!options.json) {
 						console.log(`${pc.green('扫描目录')} ${filePath} Git配置: ${stringifyConfig}`)
-					} catch (error) {
+					}
+				} catch (error) {
+					if (!options.json) {
 						console.log('error', error)
 					}
-				} else {
-					files.forEach((fileName: string) => {
-						const fullPath = `${filePath}/${fileName}`
-						if (![...ignoredDirs, ...ignoredFiles].includes(fileName) && !ignoredPrefix.some((prefix) => fileName.startsWith(prefix)) && !ignoredNoPermissionPaths.some((path) => fullPath.includes(path))) {
-							readConfig(fullPath)
-						}
-					})
 				}
+			} else {
+				files.forEach((fileName: string) => {
+					const fullPath = `${filePath}/${fileName}`
+					if (![...ignoredDirs, ...ignoredFiles].includes(fileName) && !ignoredPrefix.some((prefix) => fileName.startsWith(prefix)) && !ignoredNoPermissionPaths.some((path) => fullPath.includes(path))) {
+						readConfig(fullPath)
+					}
+				})
 			}
 		}
+	}
 
-		readConfig(dirPath)
+	readConfig(dirPath!)
 
-		const getAnalyzeRes = (userConfigs: Record<string, number>) => {
-			let res = '\n统计结果\n'
-			Object.keys(userConfigs).forEach((key) => {
-
-				let currentKey = key
-				if (!isValidUserConfig(key)) {
-					currentKey = `${pc.red(key)} 不在配置列表中，请检查是否正确`
-				}
-				if (isCurrentConfig(key)) {
-					currentKey = `${pc.green(key)} ${pc.green('(当前配置)')}`
-				}
-				res = `${res}${pc.green(userConfigs[key])} 个目录使用了配置 ${currentKey}\n`
-			})
-			return res
+	if (options.json) {
+		const result: ScanResult = {
+			configs: Object.keys(userConfigs).map(key => ({
+				config: key,
+				count: userConfigs[key],
+				isValid: isValidUserConfig(key),
+				isCurrent: isCurrentConfig(key)
+			})),
+			projects
 		}
+		console.log(JSON.stringify(result, null, 2))
+		return
+	}
 
-		console.log(getAnalyzeRes(userConfigs))
-	})
+	const getAnalyzeRes = (userConfigs: Record<string, number>) => {
+		let res = '\n统计结果\n'
+		Object.keys(userConfigs).forEach((key) => {
+
+			let currentKey = key
+			if (!isValidUserConfig(key)) {
+				currentKey = `${pc.red(key)} 不在配置列表中，请检查是否正确`
+			}
+			if (isCurrentConfig(key)) {
+				currentKey = `${pc.green(key)} ${pc.green('(当前配置)')}`
+			}
+			res = `${res}${pc.green(userConfigs[key])} 个目录使用了配置 ${currentKey}\n`
+		})
+		return res
+	}
+
+	console.log(getAnalyzeRes(userConfigs))
 }

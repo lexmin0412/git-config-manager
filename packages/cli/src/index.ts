@@ -107,9 +107,11 @@ program
 	.command('scan')
 	.alias('sc')
 	.description('scan all git project\'s config in directory')
-	.action(() => {
+	.option('--dir <path>', 'directory to scan')
+	.action(async (options) => {
 		try {
-			scan()
+			const globalOpts = program.opts()
+			await scan({ ...options, json: globalOpts.json })
 		} catch (error) {
 			console.error(error)
 			process.exit(1)
@@ -122,7 +124,8 @@ program
 	.description('verify if your git config in current workspace is correct')
 	.action(() => {
 		try {
-			doctor()
+			const options = program.opts()
+			doctor({ json: options.json })
 		} catch (error) {
 			console.error(error)
 			process.exit(1)
