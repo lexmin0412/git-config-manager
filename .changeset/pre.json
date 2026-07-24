@@ -1,0 +1,10 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@lexmin0412/gcm-api": "1.9.0",
+    "@lexmin0412/gcm": "1.9.0",
+    "gcm-vscode": "1.9.0"
+  },
+  "changesets": []
+}
