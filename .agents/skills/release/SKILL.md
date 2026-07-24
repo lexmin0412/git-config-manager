@@ -13,7 +13,8 @@ description: 基于 Changesets 的 Monorepo 发布流程。当用户说"发布"�
 - `@lexmin0412/gcm-api` (api) - API 包，发布到 npm
 - `gcm-vscode` (vsc-ext) - VSCode 插件，发布到 VSCode Marketplace，被 changeset ignore
 
-**版本同步策略**：三个包版本号保持一致，但发布渠道不同：
+**版本同步策略**：四个包版本号保持一致，但发布渠道不同：
+- 根目录 package.json → 版本号同步
 - api + cli → npm（通过 changeset）
 - vsc-ext → VSCode Marketplace（通过 vsce publish）
 
@@ -26,6 +27,44 @@ description: 基于 Changesets 的 Monorepo 发布流程。当用户说"发布"�
 3. **必须在 master 分支**：不在则停止，不询问
 4. **npm 登录检查**：Step 0 必须验证，否则后续回退成本高
 5. **Beta 优先**：正式发布前必须先发 beta 验证
+6. **版本号同步**：根目录 + api + cli + vsc-ext 四个版本必须一致
+
+## 前置知识
+
+### pnpm + vsce 兼容性问题
+
+vsce 官方不支持 pnpm，`npm list` 命令会因 pnpm 符号链接而失败。
+
+**解决方案**：用 esbuild bundle + `--no-dependencies`
+
+vsc-ext 的 package.json scripts 应配置为：
+```json
+{
+  "scripts": {
+    "vscode:prepublish": "pnpm run bundle",
+    "bundle": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "package": "pnpm vsce package --no-dependencies",
+    "publish": "pnpm vsce publish --no-dependencies"
+  }
+}
+```
+
+### workspace 依赖处理
+
+vsc-ext 的 `@lexmin0412/gcm-api` 不能用 `workspace:*`，要用固定 npm 版本号：
+```json
+{
+  "dependencies": {
+    "@lexmin0412/gcm-api": "1.10.0"  // 不能用 workspace:*
+  }
+}
+```
+
+### npm 2FA 问题
+
+- 用 `npm whoami` 检查登录状态
+- 如需 OTP，提前准备认证器或 Access Token
+- Access Token 设置：`npm config set //registry.npmjs.org/:_authToken <token>`
 
 ## 发布流程
 
@@ -41,7 +80,7 @@ git log --oneline -10               # 展示最近 commit
 - 工作区不干净 → 提醒用户先处理，停止
 - 不在 master → 停止，提示切换分支
 - npm 未登录 → 停止，提示 `npm login`
-- npm 开启 2FA → 提示需要提供 `--otp <code>`
+- npm 开启 2FA → 提示需要提供 `--otp <code>` 或设置 Access Token
 
 ### Step 1: 状态检测
 
@@ -55,6 +94,7 @@ npm view @lexmin0412/gcm-api version
 # 获取本地版本（精确匹配 package.json 中的 version 字段）
 node -e "console.log(require('./packages/cli/package.json').version)"
 node -e "console.log(require('./packages/api/package.json').version)"
+node -e "console.log(require('./package.json').version)"  # 根目录也要检查
 ```
 
 判断逻辑：
@@ -105,6 +145,14 @@ npx changeset version
 
 # 同步 lockfile
 pnpm install
+
+# 同步根目录版本号
+node -e "
+const pkg = require('./package.json');
+const cliPkg = require('./packages/cli/package.json');
+pkg.version = cliPkg.version;
+require('fs').writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
+"
 ```
 
 **执行后展示变更摘要**：
@@ -185,6 +233,14 @@ npx changeset pre exit
 ```bash
 npx changeset version
 pnpm install
+
+# 同步根目录版本号
+node -e "
+const pkg = require('./package.json');
+const cliPkg = require('./packages/cli/package.json');
+pkg.version = cliPkg.version;
+require('fs').writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
+"
 ```
 
 #### 5.3 提交 & 发布正式版
@@ -229,13 +285,21 @@ git log $(git describe --tags --abbrev=0)..HEAD --oneline packages/vsc-ext/
 cd packages/vsc-ext
 npm version <新版本号> --no-git-tag-version  # 如 1.10.0
 
-# 发布到 VSCode Marketplace（需要 PAT）
-pnpm --filter gcm-vscode vsce:publish
+# 打包（使用 esbuild bundle）
+pnpm run package
+
+# 发布到 VSCode Marketplace
+pnpm run publish
 
 # 提交版本变更
 git add packages/vsc-ext/package.json
 git commit -m "chore(vsc-ext): sync version to <新版本号>"
 ```
+
+**注意**：
+- VSCode Marketplace 不允许同一版本号重复上传，版本号必须递增
+- 使用 `pnpm run package`（即 `vsce package --no-dependencies`）
+- 使用 `pnpm run publish`（即 `vsce publish --no-dependencies`）
 
 ### Step 7: 汇总
 
@@ -258,7 +322,7 @@ npm dist-tag rm @lexmin0412/gcm beta
 npm dist-tag rm @lexmin0412/gcm-api beta
 
 # 3. 重置版本号
-git checkout -- packages/*/package.json
+git checkout -- packages/*/package.json package.json
 
 # 4. 清理 changeset 文件
 rm .changeset/pre.json
@@ -273,12 +337,24 @@ git commit -m "chore: revert beta release"
 | 问题 | 解决方案 |
 |------|----------|
 | npm 未登录 | `npm login` |
-| npm 2FA | `npx changeset publish --otp <code>` |
+| npm 2FA | `npx changeset publish --otp <code>` 或设置 Access Token |
 | 版本已存在 | 检查是否重复发布，或手动升级版本号 |
 | 构建失败 | 修复 TS 错误后重试 |
 | tag 冲突 | `git tag -d <tag>` 删除旧 tag |
 | 部分发布失败 | 不要 push，修复后重新 `changeset publish` |
 | beta 验证失败 | 执行 [Beta 回退](#beta-回退) |
+| vsce npm list 失败 | 使用 esbuild bundle + `--no-dependencies` |
+| VSIX 版本已存在 | 递增版本号后重新打包 |
+| workspace 依赖找不到 | vsc-ext 用固定 npm 版本号，不用 `workspace:*` |
+
+## 发布前检查清单
+
+- [ ] npm 登录状态正常（`npm whoami`）
+- [ ] 所有包版本号一致（根目录 + api + cli + vsc-ext）
+- [ ] 构建成功（`pnpm build`）
+- [ ] Beta 版本验证通过
+- [ ] VSCode 插件用 esbuild bundle 打包
+- [ ] vsc-ext 的 `@lexmin0412/gcm-api` 用固定版本号
 
 ## 快捷命令
 
