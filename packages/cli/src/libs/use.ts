@@ -13,19 +13,30 @@ export const getConfigByAlias = (alias: string) => {
 	return config || null
 }
 
+interface UseOptions {
+	json?: boolean
+}
 
-
-export const use = (alias: string) => {
+export const use = (alias: string, options: UseOptions = {}) => {
 
 	createEmptyJsonWhenNeeds()
 
 	if ( !fs.existsSync(configJsonPath) ) {
 		const currentConfig = getProjectConfig()
-		console.error(`配置文件不存在，当前 git 配置为:
+		
+		if (options.json) {
+			console.log(JSON.stringify({ 
+				success: false, 
+				error: '配置文件不存在',
+				currentConfig
+			}))
+		} else {
+			console.error(`配置文件不存在，当前 git 配置为:
 user.name: ${currentConfig.name}
 user.email: ${currentConfig.email}
 此配置将被写为默认配置，别名为 default
 执行 \`gcm ls\` 查看配置列表`)
+		}
 
 		const defaultConfig = {
 			alias: 'default',
@@ -38,14 +49,28 @@ user.email: ${currentConfig.email}
 	} else {
 		const config = getConfigByAlias(alias)
 		if ( !config ) {
-			console.error(pc.red(`配置别名 ${alias} 不存在`))
+			if (options.json) {
+				console.log(JSON.stringify({ success: false, error: `配置别名 ${alias} 不存在` }))
+			} else {
+				console.error(pc.red(`配置别名 ${alias} 不存在`))
+			}
 			process.exit(1)
 		} else {
 			setConfig(config)
 			const currentConfig = getProjectConfig()
-			console.log(pc.green(`当前 git 配置为:
+			
+			if (options.json) {
+				console.log(JSON.stringify({ 
+					success: true, 
+					alias,
+					name: currentConfig.name,
+					email: currentConfig.email
+				}))
+			} else {
+				console.log(pc.green(`当前 git 配置为:
 user.name: ${currentConfig.name}
 user.email: ${currentConfig.email}`))
+			}
 		}
 	}
 }

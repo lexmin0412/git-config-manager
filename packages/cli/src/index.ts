@@ -40,13 +40,25 @@ program
 	.version(pkgJson.version)
 	.option('--json', 'output as JSON')
 
+// 自定义 version 输出，支持 --json
+program.configureOutput({
+	writeOut: (str) => {
+		if (isJsonMode && str.includes(pkgJson.version)) {
+			process.stdout.write(JSON.stringify({ version: pkgJson.version }) + '\n')
+		} else {
+			process.stdout.write(str)
+		}
+	}
+})
+
 // use
 program
 	.command('use <alias>')
 	.description('use git user config by alias')
 	.action(async (alias: string) => {
 		try {
-			await use(alias)
+			const options = program.opts()
+			await use(alias, { json: options.json })
 		} catch (error) {
 			console.error(error)
 			process.exit(1)
@@ -138,7 +150,8 @@ program
 	.description('upgrade version of gcm self')
 	.action(async () => {
 		try {
-			await upgrade()
+			const options = program.opts()
+			await upgrade({ json: options.json })
 		} catch (error) {
 			console.error(error)
 			process.exit(1)
