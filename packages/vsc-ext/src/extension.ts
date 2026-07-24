@@ -129,11 +129,10 @@ const registerOpenCommand = (context: vscode.ExtensionContext) => {
 				// git@github.com:owner/repo.git -> https://github.com/owner/repo
 				const pathname = parsed.pathname.replace(/\.git$/, '');
 				httpsUrl = `https://${parsed.host}/${pathname}`;
-			} else if (parsed.protocol === 'https') {
-				httpsUrl = parsed.raw.replace(/\.git$/, '');
 			} else {
-				vscode.window.showErrorMessage(`不支持的远程协议: ${parsed.protocol}`);
-				return;
+				// https 协议
+				const pathname = parsed.pathname.replace(/\.git$/, '');
+				httpsUrl = `https://${parsed.host}/${pathname}`;
 			}
 
 			vscode.env.openExternal(vscode.Uri.parse(httpsUrl));
