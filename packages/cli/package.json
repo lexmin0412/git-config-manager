@@ -1,6 +1,6 @@
 {
 	"name": "@lexmin0412/gcm",
-	"version": "1.10.0-beta.0",
+	"version": "1.10.0-beta.1",
 	"description": "GCM 的命令行接口",
 	"bin": {
 		"gcm": "./bin/gcm.js",
@@ -19,8 +19,7 @@
 	},
 	"files": [
 		"es",
-		"lib",
-		"server"
+		"lib"
 	],
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",
@@ -54,7 +53,6 @@
 		"inquirer": "8.2.3",
 		"latest-version": "5.1.0",
 		"picocolors": "^1.0.0",
-		"puppeteer": "^24.2.1",
 		"semver": "^7.3.7"
 	},
 	"types": "./lib/index.d.ts",

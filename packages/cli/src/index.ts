@@ -5,7 +5,7 @@ import { program } from 'commander'
 import { gt } from 'semver'
 import { add, current, doctor, list, remove, scan, upgrade, use } from './libs'
 import notification from './notification.json'
-import { sync } from './libs/sync'
+import { syncPull, syncPush } from './libs/sync'
 import { getConfig, setConfig } from './libs/config'
 import { handleError } from './utils'
 const figlet = require('figlet')
@@ -176,13 +176,27 @@ program
 		}
 	})
 
-// sync
+// sync pull
 program
-	.command('sync')
-	.description('sync config to remote')
+	.command('sync pull')
+	.description('pull config from remote (overwrite local)')
 	.action(async () => {
 		try {
-			await sync()
+			const options = program.opts()
+			await syncPull({ json: options.json })
+		} catch (error) {
+			handleError(error)
+		}
+	})
+
+// sync push
+program
+	.command('sync push')
+	.description('push config to remote (overwrite remote)')
+	.action(async () => {
+		try {
+			const options = program.opts()
+			await syncPush({ json: options.json })
 		} catch (error) {
 			handleError(error)
 		}
