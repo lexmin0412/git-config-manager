@@ -17,18 +17,30 @@
     "directory": "packages/vsc-ext"
   },
   "activationEvents": [
-    "*"
+    "workspaceContains:.git"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "gcm-vscode.use",
-        "title": "GCM: Use defined config"
+        "title": "GCM: Switch config",
+        "category": "GCM"
       },
       {
         "command": "gcm-vscode.open",
-        "title": "GCM: Open current file on remote"
+        "title": "GCM: Open on remote",
+        "category": "GCM"
+      },
+      {
+        "command": "gcm-vscode.list",
+        "title": "GCM: List configs",
+        "category": "GCM"
+      },
+      {
+        "command": "gcm-vscode.current",
+        "title": "GCM: Show current config",
+        "category": "GCM"
       }
     ]
   },
