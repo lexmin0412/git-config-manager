@@ -52,11 +52,12 @@ export const getPkgJson = () => {
 	return require(path.resolve(__dirname, '..', '..', 'package.json'))
 }
 
-export const getCurrentConfig = () => {
+export const getCurrentConfig = (projectPath?: string) => {
 	if (!checkGitEnv()) return null;
 	try {
-		const currentUserName = execSync('git config --get user.name').toString().trim()
-		const currentUserEmail = execSync('git config --get user.email').toString().trim()
+		const options = projectPath ? { cwd: projectPath } : {};
+		const currentUserName = execSync('git config --get user.name', options).toString().trim()
+		const currentUserEmail = execSync('git config --get user.email', options).toString().trim()
 		if (!currentUserName || !currentUserEmail) {
 			return null
 		}

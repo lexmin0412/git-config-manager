@@ -174,7 +174,7 @@ const registerCurrentCommand = (context: vscode.ExtensionContext) => {
 			return;
 		}
 
-		const currentConfig = getCurrentConfig();
+		const currentConfig = getCurrentConfig(workDir);
 		if (!currentConfig) {
 			vscode.window.showWarningMessage('未检测到 Git 配置（user.name/user.email）。');
 			return;
