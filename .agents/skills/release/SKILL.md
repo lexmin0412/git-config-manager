@@ -25,6 +25,7 @@ description: 基于 Changesets 的 Monorepo 发布流程。当用户说"发布"�
 2. **分步执行**：每步完成后报告结果，确认无误再进入下一步
 3. **必须在 master 分支**：不在则停止，不询问
 4. **npm 登录检查**：Step 0 必须验证，否则后续回退成本高
+5. **Beta 优先**：正式发布前必须先发 beta 验证
 
 ## 发布流程
 
@@ -116,7 +117,77 @@ git diff "**/CHANGELOG.md"
 
 > 注意：`config.json` 中 `"commit": false`，所以 version 之后改动是 unstaged 的，需要手动 commit。
 
-### Step 4: 提交 & 发布
+### Step 4: Beta 发布（必须）
+
+**正式发布前必须先发 beta 验证**，避免有问题的包发布到 latest。
+
+#### 4.1 进入 beta 模式
+
+```bash
+npx changeset pre enter beta
+```
+
+#### 4.2 构建 & beta 版本升级
+
+```bash
+pnpm build
+npx changeset version
+pnpm install
+```
+
+此时版本号会变成 `1.10.0-beta.0`。
+
+#### 4.3 提交 beta 版本
+
+```bash
+git add -A
+git status  # 展示变更，等待用户确认
+git commit -m "chore(release): beta v<版本号>-beta.0"
+git tag v<版本号>-beta.0
+```
+
+#### 4.4 发布 beta 到 npm
+
+```bash
+# 发布到 npm 的 beta tag（不会影响 latest）
+npx changeset publish --tag beta
+
+# 推送
+git push && git push --tags
+```
+
+#### 4.5 验证 beta
+
+```bash
+# 检查 beta 版本
+npm view @lexmin0412/gcm dist-tags
+
+# 安装测试
+npm install -g @lexmin0412/gcm@beta
+gcm --version
+gcm list --json
+```
+
+**等待用户确认 beta 验证通过**。如果有问题，执行 [Beta 回退流程](#beta-回退)。
+
+### Step 5: 正式发布
+
+**确认 beta 验证通过后**，退出 beta 模式并发布正式版。
+
+#### 5.1 退出 beta 模式
+
+```bash
+npx changeset pre exit
+```
+
+#### 5.2 重新版本升级（生成正式版本号）
+
+```bash
+npx changeset version
+pnpm install
+```
+
+#### 5.3 提交 & 发布正式版
 
 ```bash
 # 展示将要提交的内容
@@ -124,8 +195,8 @@ git add -A
 git status
 
 # 等待用户确认后
-git commit -m "chore(release): publish"
-git tag v<新版本号>   # 使用 gcm 的版本号，格式统一为 v 前缀
+git commit -m "chore(release): publish v<新版本号>"
+git tag v<新版本号>
 
 # dry-run 检查版本不存在
 npm view @lexmin0412/gcm@<新版本号> version 2>/dev/null && echo "版本已存在!" || echo "版本可发布"
@@ -138,12 +209,15 @@ npx changeset publish
 git push && git push --tags
 ```
 
-**发布失败处理**：
-- publish 失败 → **不要** `git push`，修复后重新 `npx changeset publish`（会跳过已成功的包）
-- 如果已 push 但部分失败 → 记录哪些包成功，修复后只重发失败的包
-- npm 发布不可撤销（超过 72 小时），publish 前务必确认版本号
+#### 5.4 清理 beta tag
 
-### Step 5: VSCode 插件发布（如有变更）
+```bash
+# 删除 npm 的 beta tag
+npm dist-tag rm @lexmin0412/gcm beta
+npm dist-tag rm @lexmin0412/gcm-api beta
+```
+
+### Step 6: VSCode 插件发布（如有变更）
 
 vsc-ext 被 changeset ignore，需要单独处理，但版本号与 npm 包保持一致：
 
@@ -163,13 +237,36 @@ git add packages/vsc-ext/package.json
 git commit -m "chore(vsc-ext): sync version to <新版本号>"
 ```
 
-### Step 6: 汇总
+### Step 7: 汇总
 
 报告：
 - 各包的新版本号（npm 包 + vsc-ext 统一）
 - npm 发布结果
 - VSCode 插件发布结果（如有）
 - GitHub Release 链接（如需，执行 `gh release create v<version> --notes-from-tag`）
+
+## Beta 回退
+
+如果 beta 验证失败：
+
+```bash
+# 1. 退出 beta 模式
+npx changeset pre exit
+
+# 2. 删除 beta tag
+npm dist-tag rm @lexmin0412/gcm beta
+npm dist-tag rm @lexmin0412/gcm-api beta
+
+# 3. 重置版本号
+git checkout -- packages/*/package.json
+
+# 4. 清理 changeset 文件
+rm .changeset/pre.json
+
+# 5. 重新提交
+git add -A
+git commit -m "chore: revert beta release"
+```
 
 ## 故障排除
 
@@ -181,6 +278,7 @@ git commit -m "chore(vsc-ext): sync version to <新版本号>"
 | 构建失败 | 修复 TS 错误后重试 |
 | tag 冲突 | `git tag -d <tag>` 删除旧 tag |
 | 部分发布失败 | 不要 push，修复后重新 `changeset publish` |
+| beta 验证失败 | 执行 [Beta 回退](#beta-回退) |
 
 ## 快捷命令
 
@@ -188,4 +286,4 @@ git commit -m "chore(vsc-ext): sync version to <新版本号>"
 1. 检查 npm 登录 → 未登录则停止
 2. 检查本地 vs 远程版本 → 已 bump 则直接 publish
 3. 没有 changeset → 分析 git log 帮创建
-4. 走完整流程
+4. 走完整流程（含 beta）
