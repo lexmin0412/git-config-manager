@@ -1,6 +1,6 @@
 {
   "name": "@lexmin0412/gcm-api",
-  "version": "1.10.0-beta.2",
+  "version": "1.10.0",
   "description": "GCM 的 Node.js API",
   "keywords": [
     "gcm"
