@@ -153,3 +153,45 @@ export const setProjectConfig = (config: UserConfig, projectPath: string = proce
 		return false
 	}
 }
+
+export const getProjectRemoteUrl = (projectPath: string = process.cwd(), remoteName: string = 'origin') => {
+	if (!checkGitEnv() || !isGitRepo(projectPath)) {
+		return ''
+	}
+	try {
+		return execSync(`git remote get-url ${remoteName}`, {
+			cwd: projectPath,
+			stdio: ['pipe', 'pipe', 'ignore']
+		}).toString().trim()
+	} catch {
+		return ''
+	}
+}
+
+export const parseGitRemote = (remoteUrl: string) => {
+	if (!remoteUrl) {
+		return null
+	}
+
+	// SSH 格式: git@github.com:owner/repo.git
+	const sshMatch = remoteUrl.match(/^git@([^:]+):(.+)$/)
+	if (sshMatch) {
+		return {
+			protocol: 'ssh' as const,
+			host: sshMatch[1],
+			pathname: sshMatch[2]
+		}
+	}
+
+	// HTTPS 格式: https://github.com/owner/repo.git
+	try {
+		const url = new URL(remoteUrl)
+		return {
+			protocol: 'https' as const,
+			host: url.hostname,
+			pathname: url.pathname.slice(1) // 去掉开头的 /
+		}
+	} catch {
+		return null
+	}
+}
