@@ -110,11 +110,9 @@ const registerOpenFileCommand = (context: vscode.ExtensionContext) => {
 
 		// 获取当前聚焦的文件路径
 		const currentEditorPath = vscode.window.activeTextEditor?.document.uri.path
-		console.log('currentEditorPath', currentEditorPath)
 
 		// 获取仓库 base
 		const repoDomain = await execSync('git remote get-url origin', {}).toString().trim()
-		console.log('repoDomain', repoDomain)
 
 		// 打开一个外部链接
 		vscode.env.openExternal(vscode.Uri.parse(`https://github.com/lexmin0412`))

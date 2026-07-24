@@ -58,7 +58,6 @@ export const createServerAndOpenPage = async (options: {
 			});
 			// 监听页面中的点击事件
 			await page.exposeFunction("onClickEvent", (event: any) => {
-				console.log("点击事件发生:", event);
 				if (event.target === 'submit_btn') {
 
 					// TODO 校验配置
@@ -81,8 +80,6 @@ export const createServerAndOpenPage = async (options: {
 			await page.evaluate(() => {
 
 				document.addEventListener("click", (event: MouseEvent) => {
-					console.log('合并输入框', document.querySelector('#mergedConfig'))
-					console.log('合并输入框的值', document.querySelector('#mergedConfig')?.innerHTML)
 					// 调用 Node.js 中暴露的函数
 					// @ts-ignore
 					window.onClickEvent({
@@ -101,8 +98,6 @@ export const createServerAndOpenPage = async (options: {
 			// 获取本地配置内容
 			openConflictWebPage((type, data) => {
 				if (type == 'success') {
-					// TODO 提交配置
-					console.log('提交配置', data)
 					resolve(data);
 				}
 			});
